@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>算账 — 你的时间值多少钱？</title>
-  <meta name="description" content="免费开源劳动权益计算工具箱：加班费、离职补偿（N/N+1/2N）、社保公积金计算，支持6大城市，法律依据明确。">
-  <meta name="keywords" content="加班费计算器,离职补偿计算器,N+1,2N,社保计算器,公积金计算器,劳动法,劳动权益">
+  <meta name="description" content="免费开源劳动权益计算工具箱：加班费、离职补偿（N/N+1/2N）、社保公积金、年假、工伤、病假、个税计算，支持16城市，法律依据明确。">
+  <meta name="keywords" content="加班费计算器,离职补偿计算器,N+1,2N,社保计算器,公积金计算器,年假计算器,工伤赔偿,个税计算器,病假工资,劳动法,劳动权益">
   <meta property="og:title" content="算账 — 开源劳动权益计算工具箱">
-  <meta property="og:description" content="免费计算加班费、离职补偿、社保公积金，支持北京/上海/深圳/广州/郑州/杭州。">
+  <meta property="og:description" content="免费开源：8大计算器覆盖加班费、离职补偿、社保、年假、工伤、病假、个税，支持16城市。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://liang80443.github.io/suanzhang/">
   <meta property="og:locale" content="zh_CN">
@@ -25,7 +25,6 @@
       --text-secondary: #64748b;
       --border: #e2e8f0;
       --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-lg: 0 10px 25px rgba(0,0,0,0.07), 0 4px 10px rgba(0,0,0,0.04);
       --radius: 16px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -49,11 +48,12 @@
     .hero .stat-label { font-size: 0.8em; color: var(--text-secondary); }
 
     /* Tabs */
-    .tabs { display: flex; background: var(--card); border-radius: 12px; padding: 4px; box-shadow: var(--shadow); margin-bottom: 20px; }
+    .tabs { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; background: var(--card); border-radius: 12px; padding: 4px; box-shadow: var(--shadow); margin-bottom: 20px; }
+    .tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
-      flex: 1; padding: 12px 8px; border: none; border-radius: 10px;
-      background: transparent; cursor: pointer; font-size: 0.9em;
-      font-weight: 600; color: var(--text-secondary); transition: all 0.25s;
+      flex: 0 0 auto; min-width: max-content; padding: 10px 14px; border: none; border-radius: 10px;
+      background: transparent; cursor: pointer; font-size: 0.82em;
+      font-weight: 600; color: var(--text-secondary); transition: all 0.25s; white-space: nowrap;
     }
     .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(79,70,229,0.3); }
     .tab-btn:not(.active):hover { background: var(--primary-bg); color: var(--primary); }
@@ -92,6 +92,12 @@
     }
     .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(79,70,229,0.4); }
     .btn:active { transform: translateY(0); }
+    .btn-screenshot {
+      display: block; margin: 8px auto 0; background: none; border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 14px; font-size: 0.85em;
+      cursor: pointer; color: var(--text-secondary); transition: all 0.2s;
+    }
+    .btn-screenshot:hover { border-color: var(--primary); color: var(--primary); }
 
     /* Result */
     .result { display: none; animation: slideUp 0.35s ease; }
@@ -245,7 +251,7 @@
           </div>
         </div>
         <button class="btn" onclick="calcOvertime()">算算我该拿多少 →</button>
-        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-ot" onclick="saveResult('btn-ot','ot-result')">📸 保存截图</button></div>
+        <div style="text-align:center"><button class="btn-screenshot" id="btn-ot" onclick="saveResult('btn-ot','ot-result')">📸 保存截图</button></div>
       </div>
       <div id="ot-result" class="result"></div>
     </div>
@@ -284,7 +290,7 @@
         <label class="form-check"><input type="checkbox" id="sv-insurance" checked> 公司缴纳社保</label>
         <label class="form-check"><input type="checkbox" id="sv-notice" checked> 公司提前 30 天通知</label>
         <button class="btn" onclick="calcSeverance()">算算我能拿多少 →</button>
-        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-sv" onclick="saveResult('btn-sv','sv-result')">📸 保存截图</button></div>
+        <div style="text-align:center"><button class="btn-screenshot" id="btn-sv" onclick="saveResult('btn-sv','sv-result')">📸 保存截图</button></div>
       </div>
       <div id="sv-result" class="result"></div>
     </div>
@@ -326,7 +332,7 @@
           </div>
         </div>
         <button class="btn" onclick="calcInsurance()">算算到手多少 →</button>
-        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-si" onclick="saveResult('btn-si','si-result')">📸 保存截图</button></div>
+        <div style="text-align:center"><button class="btn-screenshot" id="btn-si" onclick="saveResult('btn-si','si-result')">📸 保存截图</button></div>
       </div>
       <div id="si-result" class="result"></div>
     </div>
@@ -416,7 +422,7 @@
           </div>
         </div>
         <button class="btn" onclick="calcAnnual()">算算年假怎么算 →</button>
-        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-an" onclick="saveResult('btn-an','an-result')">📸 保存截图</button></div>
+        <div style="text-align:center"><button class="btn-screenshot" id="btn-an" onclick="saveResult('btn-an','an-result')">📸 保存截图</button></div>
       </div>
       <div id="an-result" class="result"></div>
     </div>
@@ -451,16 +457,14 @@
             <input type="number" id="inj-rest" class="form-input" value="6">
           </div>
           <div class="form-group">
-            <label class="form-label">所在省份 <span class="hint">用于补助金</span></label>
+            <label class="form-label">工伤地区</label>
             <select id="inj-province" class="form-input">
-              <option value="general">全国平均（参考）</option>
-              <option value="henan">河南</option><option value="guangdong">广东</option><option value="zhejiang">浙江</option>
-              <option value="jiangsu">江苏</option><option value="shandong">山东</option><option value="sichuan">四川</option>
+              <option value="general">全国统一标准（一次性伤残补助金）</option>
             </select>
           </div>
         </div>
         <button class="btn" onclick="calcInjury()">算算工伤赔偿 →</button>
-        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-inj" onclick="saveResult('btn-inj','inj-result')">📸 保存截图</button></div>
+        <div style="text-align:center"><button class="btn-screenshot" id="btn-inj" onclick="saveResult('btn-inj','inj-result')">📸 保存截图</button></div>
       </div>
       <div id="inj-result" class="result"></div>
     </div>
@@ -500,7 +504,7 @@
           </div>
         </div>
         <button class="btn" onclick="calcTax()">算算到手多少 →</button>
-        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-tx" onclick="saveResult('btn-tx','tx-result')">📸 保存截图</button></div>
+        <div style="text-align:center"><button class="btn-screenshot" id="btn-tx" onclick="saveResult('btn-tx','tx-result')">📸 保存截图</button></div>
       </div>
       <div id="tx-result" class="result"></div>
     </div>
@@ -541,7 +545,7 @@
           </div>
         </div>
         <button class="btn" onclick="calcSick()">算算病假工资 →</button>
-        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-sk" onclick="saveResult('btn-sk','sk-result')">📸 保存截图</button></div>
+        <div style="text-align:center"><button class="btn-screenshot" id="btn-sk" onclick="saveResult('btn-sk','sk-result')">📸 保存截图</button></div>
       </div>
       <div id="sk-result" class="result"></div>
     </div>
@@ -582,11 +586,12 @@
       </p>
     </div>
     <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
     <script>
     function saveResult(btnId, resultId) {
       const el = document.getElementById(resultId);
       if (!el || !el.classList.contains('show')) { alert('请先计算结果'); return; }
+      if (typeof html2canvas === 'undefined') { alert('截图组件加载中，请稍后再试或手动截图（Ctrl+S）'); return; }
       const btn = document.getElementById(btnId);
       btn.textContent = '生成中...';
       html2canvas(el, { backgroundColor: '#f8fafc', scale: 2 }).then(canvas => {
@@ -597,7 +602,7 @@
         btn.textContent = '📸 保存截图';
       }).catch(() => {
         btn.textContent = '📸 保存截图';
-        alert('截图失败，请手动截图');
+        alert('截图失败，请手动截图（Ctrl+S）');
       });
     }
     </script>
@@ -615,6 +620,9 @@
     function fm(n) {
       if (n === null || n === undefined) return '需向社保局申请';
       return '¥' + n.toLocaleString();
+    }
+    function esc(s) {
+      const d = document.createElement('div'); d.textContent = String(s); return d.innerHTML;
     }
 
     // === 加班费 ===
@@ -684,9 +692,11 @@
       const hasNotice = document.getElementById('sv-notice').checked;
       if (salary <= 0 || years <= 0) { alert('请填写有效的月薪和工作年限'); return; }
       const rounded = years % 1 === 0 ? years : (years % 1 >= 0.5 ? Math.ceil(years) : Math.floor(years) + 0.5);
-      const SALARY_LIMITS = { beijing:25290, shanghai:36549, shenzhen:27501, guangzhou:28134, zhengzhou:21370, hangzhou:28368 };
-      const cappedSalary = Math.min(salary, SALARY_LIMITS.zhengzhou || 30000);
-      const salaryCapped = salary > (SALARY_LIMITS.zhengzhou || 30000);
+      const SALARY_LIMITS = { beijing:35283, shanghai:36549, shenzhen:27501, guangzhou:26421, zhengzhou:28134, hangzhou:22311 };
+      const DEFAULT_LIMIT = 30000;
+      const salaryLimit = SALARY_LIMITS.zhengzhou || DEFAULT_LIMIT;
+      const cappedSalary = Math.min(salary, salaryLimit);
+      const salaryCapped = salary > salaryLimit;
       const calcSalary = ['dismissal','mutual','expire','illegal'].includes(reason) ? cappedSalary : salary;
       const claims = [];
       if (['dismissal','mutual','expire'].includes(reason))
