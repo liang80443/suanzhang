@@ -5,169 +5,294 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>算账 — 你的时间值多少钱？</title>
   <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --primary-bg: #eef2ff;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.07), 0 4px 10px rgba(0,0,0,0.04);
+      --radius: 16px;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f7fa; color: #333; line-height: 1.6; }
-    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 480px; margin: 0 auto; padding: 16px; }
 
-    /* Header */
-    .header { text-align: center; padding: 40px 20px 30px; }
-    .header h1 { font-size: 2em; margin-bottom: 8px; }
-    .header p { color: #666; font-size: 1.1em; }
+    /* Hero */
+    .hero { text-align: center; padding: 32px 16px 24px; }
+    .hero-icon { font-size: 3em; margin-bottom: 8px; filter: drop-shadow(0 2px 4px rgba(79,70,229,0.2)); }
+    .hero h1 { font-size: 1.75em; font-weight: 800; background: linear-gradient(135deg, #4f46e5, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero .subtitle { color: var(--text-secondary); font-size: 1.05em; margin-top: 6px; }
+    .hero .stats { display: flex; justify-content: center; gap: 24px; margin-top: 20px; }
+    .hero .stat-item { text-align: center; }
+    .hero .stat-num { font-size: 1.4em; font-weight: 800; color: var(--primary); }
+    .hero .stat-label { font-size: 0.8em; color: var(--text-secondary); }
 
-    /* Nav */
-    .nav { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
-    .nav button { padding: 10px 20px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-size: 1em; transition: all 0.2s; }
-    .nav button:hover { border-color: #4a6cf7; color: #4a6cf7; }
-    .nav button.active { background: #4a6cf7; color: white; border-color: #4a6cf7; }
+    /* Tabs */
+    .tabs { display: flex; background: var(--card); border-radius: 12px; padding: 4px; box-shadow: var(--shadow); margin-bottom: 20px; }
+    .tab-btn {
+      flex: 1; padding: 12px 8px; border: none; border-radius: 10px;
+      background: transparent; cursor: pointer; font-size: 0.9em;
+      font-weight: 600; color: var(--text-secondary); transition: all 0.25s;
+    }
+    .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(79,70,229,0.3); }
+    .tab-btn:not(.active):hover { background: var(--primary-bg); color: var(--primary); }
 
     /* Card */
-    .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-    .card h2 { font-size: 1.3em; margin-bottom: 16px; color: #1a1a1a; }
+    .card {
+      background: var(--card); border-radius: var(--radius);
+      padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow);
+    }
+    .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .card-icon { font-size: 1.5em; }
+    .card-title { font-size: 1.1em; font-weight: 700; }
+    .card-desc { font-size: 0.85em; color: var(--text-secondary); }
 
     /* Form */
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.95em; }
-    .form-group input, .form-group select { width: 100%; padding: 10px 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; transition: border-color 0.2s; }
-    .form-group input:focus, .form-group select:focus { outline: none; border-color: #4a6cf7; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 0.9em; font-weight: 600; }
+    .form-label .hint { font-weight: 400; color: var(--text-secondary); font-size: 0.85em; }
+    .form-input {
+      width: 100%; padding: 12px 16px; border: 2px solid var(--border);
+      border-radius: 10px; font-size: 1em; transition: all 0.2s;
+      background: var(--bg); color: var(--text);
+    }
+    .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .form-input-sm { text-align: center; }
+    .form-check { display: flex; align-items: center; gap: 8px; font-size: 0.9em; cursor: pointer; padding: 6px 0; }
+    .form-check input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); }
 
     /* Button */
-    .btn { width: 100%; padding: 14px; background: #4a6cf7; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    .btn:hover { background: #3a5ce5; }
+    .btn {
+      width: 100%; padding: 14px; background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: white; border: none; border-radius: 12px; font-size: 1.05em;
+      font-weight: 700; cursor: pointer; transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(79,70,229,0.3); margin-top: 4px;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(79,70,229,0.4); }
+    .btn:active { transform: translateY(0); }
 
     /* Result */
-    .result { display: none; }
+    .result { display: none; animation: slideUp 0.35s ease; }
     .result.show { display: block; }
-    .result-total { text-align: center; padding: 20px; margin: 16px 0; background: linear-gradient(135deg, #4a6cf7, #6a8cff); border-radius: 12px; color: white; }
-    .result-total .amount { font-size: 2.5em; font-weight: 800; }
-    .result-total .label { font-size: 0.95em; opacity: 0.9; }
-    .result-table { width: 100%; border-collapse: collapse; }
-    .result-table th, .result-table td { padding: 12px; text-align: left; border-bottom: 1px solid #f0f0f0; }
-    .result-table th { color: #888; font-weight: 500; font-size: 0.9em; }
-    .result-table .amount { font-weight: 700; color: #4a6cf7; font-size: 1.1em; }
-    .rate-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600; }
-    .rate-150 { background: #fff3cd; color: #856404; }
-    .rate-200 { background: #ffd6dd; color: #a71d2a; }
-    .rate-300 { background: #f8d7da; color: #721c24; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .result-hero {
+      text-align: center; padding: 24px 20px; margin-bottom: 16px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed); border-radius: var(--radius);
+      color: white; box-shadow: 0 8px 24px rgba(79,70,229,0.25);
+    }
+    .result-hero .label { font-size: 0.95em; opacity: 0.9; }
+    .result-hero .amount { font-size: 2.8em; font-weight: 900; margin: 4px 0; letter-spacing: -1px; }
+    .result-hero .sub { font-size: 0.85em; opacity: 0.8; }
+
+    .detail-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-row .info { flex: 1; }
+    .detail-row .type { font-weight: 600; font-size: 0.95em; }
+    .detail-row .desc { font-size: 0.8em; color: var(--text-secondary); margin-top: 2px; }
+    .detail-row .value { font-weight: 800; color: var(--primary); font-size: 1.1em; }
+    .detail-row .rate-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 6px;
+      font-size: 0.8em; font-weight: 700; margin-left: 6px;
+    }
+    .rate-150 { background: #fef3c7; color: #92400e; }
+    .rate-200 { background: #fee2e2; color: #991b1b; }
+    .rate-300 { background: #fecaca; color: #7f1d1d; }
+
+    /* Claim card */
+    .claim-card {
+      background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 10px;
+      border-left: 4px solid var(--primary); box-shadow: var(--shadow);
+    }
+    .claim-card .claim-type { font-weight: 700; font-size: 1em; }
+    .claim-card .claim-detail { color: var(--text-secondary); font-size: 0.9em; margin: 4px 0; }
+    .claim-card .claim-amount { font-size: 1.6em; font-weight: 900; color: var(--primary); }
+    .claim-card .claim-note { color: var(--text-secondary); font-size: 0.82em; margin-top: 4px; }
+    .claim-card .claim-law { color: var(--primary-light); font-size: 0.82em; font-style: italic; margin-top: 2px; }
 
     /* Tips */
-    .tips { background: #f8f9ff; border-left: 4px solid #4a6cf7; padding: 16px; margin-top: 16px; border-radius: 0 8px 8px 0; }
-    .tips h3 { font-size: 0.95em; margin-bottom: 8px; color: #4a6cf7; }
-    .tips li { font-size: 0.9em; color: #555; margin-bottom: 4px; margin-left: 16px; }
+    .tips-card {
+      background: var(--primary-bg); border-radius: 12px; padding: 16px;
+      border: 1px solid #c7d2fe;
+    }
+    .tips-card h4 { font-size: 0.95em; color: var(--primary); margin-bottom: 8px; }
+    .tips-card li { font-size: 0.85em; color: var(--text-secondary); margin-bottom: 4px; margin-left: 16px; }
 
-    /* Claims */
-    .claim-item { padding: 16px; margin-bottom: 8px; background: #fafbff; border-radius: 8px; border-left: 4px solid #4a6cf7; }
-    .claim-item .claim-title { font-weight: 700; font-size: 1.05em; }
-    .claim-item .claim-formula { color: #666; font-size: 0.9em; margin: 4px 0; }
-    .claim-item .claim-amount { font-size: 1.4em; font-weight: 800; color: #4a6cf7; }
-    .claim-item .claim-note { color: #999; font-size: 0.85em; margin-top: 4px; }
-    .claim-item .claim-basis { color: #888; font-size: 0.85em; font-style: italic; }
+    /* Contribute */
+    .contribute {
+      background: var(--card); border-radius: var(--radius); padding: 20px;
+      box-shadow: var(--shadow); margin-top: 8px;
+    }
+    .contribute h3 { font-size: 1.1em; margin-bottom: 4px; }
+    .contribute > p { font-size: 0.9em; color: var(--text-secondary); margin-bottom: 14px; }
+    .contrib-level { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 0.88em; }
+    .contrib-level .level-icon { font-size: 1.3em; flex-shrink: 0; margin-top: 2px; }
+    .contrib-level strong { color: var(--text); }
+    .contrib-level p { color: var(--text-secondary); margin: 2px 0 0; }
+    .repo-links { display: flex; gap: 10px; margin: 14px 0 10px; }
+    .repo-link {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 700;
+      font-size: 0.95em; transition: all 0.2s;
+    }
+    .repo-link.github { background: #24292f; color: white; }
+    .repo-link.gitee { background: #c71d23; color: white; }
+    .repo-link:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .fork-hint { text-align: center; font-size: 0.9em; color: var(--primary); font-weight: 600; }
 
-    /* Disclaimer */
-    .disclaimer { text-align: center; padding: 20px; color: #999; font-size: 0.85em; margin-top: 20px; }
-    .disclaimer a { color: #4a6cf7; text-decoration: none; }
+    /* Footer */
+    .footer { text-align: center; padding: 16px; color: var(--text-secondary); font-size: 0.8em; }
 
     /* Responsive */
-    @media (max-width: 600px) {
-      .header h1 { font-size: 1.6em; }
-      .form-row, .form-row-3 { grid-template-columns: 1fr; }
-      .nav button { padding: 8px 14px; font-size: 0.9em; }
+    @media (max-width: 480px) {
+      .container { padding: 12px; }
+      .hero { padding: 24px 12px 20px; }
+      .hero h1 { font-size: 1.5em; }
+      .result-hero .amount { font-size: 2.2em; }
+      .form-row { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    }
+    @media (min-width: 768px) {
+      .container { max-width: 520px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <h1>💰 算账</h1>
-      <p>你的时间值多少钱？来算算。</p>
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-icon">💰</div>
+      <h1>算账</h1>
+      <p class="subtitle">你的时间值多少钱？来算算。</p>
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">计算器</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">6</div>
+          <div class="stat-label">城市</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">免费开源</div>
+        </div>
+      </div>
     </div>
 
-    <div class="nav">
-      <button class="active" onclick="switchTab('overtime')">⏰ 加班费</button>
-      <button onclick="switchTab('severance')">👋 离职补偿</button>
-      <button onclick="switchTab('insurance')">🏥 社保公积金</button>
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('overtime')">⏰ 加班费</button>
+      <button class="tab-btn" onclick="switchTab('severance')">👋 离职补偿</button>
+      <button class="tab-btn" onclick="switchTab('insurance')">🏥 社保</button>
     </div>
 
-    <!-- 加班费计算器 -->
+    <!-- 加班费 -->
     <div id="tab-overtime" class="tab-content">
       <div class="card">
-        <h2>⏰ 加班费计算器</h2>
+        <div class="card-header">
+          <span class="card-icon">⏰</span>
+          <div>
+            <div class="card-title">加班费计算器</div>
+            <div class="card-desc">工作日150% · 休息日200% · 节假日300%</div>
+          </div>
+        </div>
         <div class="form-group">
-          <label>月薪基数（元）</label>
-          <input type="number" id="ot-salary" placeholder="输入你的税前月薪" value="10000">
+          <label class="form-label">月薪基数 <span class="hint">税前工资</span></label>
+          <input type="number" id="ot-salary" class="form-input" placeholder="输入月薪" value="10000">
         </div>
-        <div class="form-row-3">
+        <div class="form-row">
           <div class="form-group">
-            <label>工作日延长（小时）</label>
-            <input type="number" id="ot-weekday" placeholder="0" value="10">
+            <label class="form-label">工作日延长</label>
+            <input type="number" id="ot-weekday" class="form-input form-input-sm" placeholder="0" value="10">
           </div>
           <div class="form-group">
-            <label>休息日（小时）</label>
-            <input type="number" id="ot-weekend" placeholder="0" value="8">
+            <label class="form-label">休息日</label>
+            <input type="number" id="ot-weekend" class="form-input form-input-sm" placeholder="0" value="8">
           </div>
           <div class="form-group">
-            <label>法定节假日（小时）</label>
-            <input type="number" id="ot-holiday" placeholder="0" value="4">
+            <label class="form-label">节假日</label>
+            <input type="number" id="ot-holiday" class="form-input form-input-sm" placeholder="0" value="4">
           </div>
         </div>
-        <button class="btn" onclick="calcOvertime()">算算</button>
+        <button class="btn" onclick="calcOvertime()">算算我该拿多少 →</button>
       </div>
       <div id="ot-result" class="result"></div>
     </div>
 
-    <!-- 离职补偿计算器 -->
+    <!-- 离职补偿 -->
     <div id="tab-severance" class="tab-content" style="display:none">
       <div class="card">
-        <h2>👋 离职补偿计算器</h2>
-        <div class="form-row">
+        <div class="card-header">
+          <span class="card-icon">👋</span>
+          <div>
+            <div class="card-title">离职补偿计算器</div>
+            <div class="card-desc">N · N+1 · 2N · 双倍工资</div>
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr">
           <div class="form-group">
-            <label>月薪基数（元）</label>
-            <input type="number" id="sv-salary" placeholder="税前月薪" value="15000">
+            <label class="form-label">月薪基数</label>
+            <input type="number" id="sv-salary" class="form-input" value="15000">
           </div>
           <div class="form-group">
-            <label>工作年限（年）</label>
-            <input type="number" id="sv-years" placeholder="如 3.5 = 3年6个月" value="3.5" step="0.5">
+            <label class="form-label">工作年限 <span class="hint">如 3.5</span></label>
+            <input type="number" id="sv-years" class="form-input" value="3.5" step="0.5">
           </div>
         </div>
         <div class="form-group">
-          <label>离职原因</label>
-          <select id="sv-reason">
-            <option value="dismissal">公司辞退（经济补偿 N）</option>
-            <option value="mutual">协商解除（经济补偿 N）</option>
-            <option value="illegal" selected>违法解除（赔偿金 2N）</option>
-            <option value="expire">合同到期公司不续签（经济补偿 N）</option>
-            <option value="resign">主动辞职（一般无补偿）</option>
+          <label class="form-label">离职原因</label>
+          <select id="sv-reason" class="form-input">
+            <option value="dismissal">公司辞退 → 经济补偿 N</option>
+            <option value="mutual">协商解除 → 经济补偿 N</option>
+            <option value="illegal" selected>违法解除 → 赔偿金 2N</option>
+            <option value="expire">合同到期不续签 → N</option>
+            <option value="resign">主动辞职 → 一般无补偿</option>
           </select>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label><input type="checkbox" id="sv-contract" checked> 有书面劳动合同</label>
-          </div>
-          <div class="form-group">
-            <label><input type="checkbox" id="sv-insurance" checked> 公司缴纳社保</label>
-          </div>
-        </div>
-        <div class="form-group">
-          <label><input type="checkbox" id="sv-notice" checked> 公司提前 30 天通知</label>
-        </div>
-        <button class="btn" onclick="calcSeverance()">算算</button>
+        <label class="form-check"><input type="checkbox" id="sv-contract" checked> 有书面劳动合同</label>
+        <label class="form-check"><input type="checkbox" id="sv-insurance" checked> 公司缴纳社保</label>
+        <label class="form-check"><input type="checkbox" id="sv-notice" checked> 公司提前 30 天通知</label>
+        <button class="btn" onclick="calcSeverance()">算算我能拿多少 →</button>
       </div>
       <div id="sv-result" class="result"></div>
     </div>
 
-    <!-- 社保公积金计算器 -->
+    <!-- 社保公积金 -->
     <div id="tab-insurance" class="tab-content" style="display:none">
       <div class="card">
-        <h2>🏥 社保公积金计算器</h2>
-        <div class="form-row">
+        <div class="card-header">
+          <span class="card-icon">🏥</span>
+          <div>
+            <div class="card-title">社保公积金计算器</div>
+            <div class="card-desc">五险一金 · 实际到手估算</div>
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr">
           <div class="form-group">
-            <label>月薪（元）</label>
-            <input type="number" id="si-salary" placeholder="税前月薪" value="10000">
+            <label class="form-label">月薪</label>
+            <input type="number" id="si-salary" class="form-input" value="10000">
           </div>
           <div class="form-group">
-            <label>所在城市</label>
-            <select id="si-region">
+            <label class="form-label">所在城市</label>
+            <select id="si-region" class="form-input">
               <option value="zhengzhou">郑州</option>
               <option value="beijing">北京</option>
               <option value="shanghai">上海</option>
@@ -177,88 +302,104 @@
             </select>
           </div>
         </div>
-        <button class="btn" onclick="calcInsurance()">算算</button>
+        <button class="btn" onclick="calcInsurance()">算算到手多少 →</button>
       </div>
       <div id="si-result" class="result"></div>
     </div>
 
-    <div class="disclaimer">
-      <p>⚠️ 本工具计算结果仅供参考，不构成法律建议</p>
-      <p>遇到劳动争议 → 劳动监察大队投诉 → 劳动仲裁（免费） → 专业律师</p>
-      <p>开源项目：<a href="https://gitee.com/liang6/suanzhang" target="_blank">Gitee</a> | 欢迎提交 PR 补充你所在城市的数据 💪</p>
+    <!-- 贡献 -->
+    <div class="contribute">
+      <h3>🤝 欢迎参与贡献</h3>
+      <p>开源项目，每种贡献都很珍贵</p>
+      <div class="contrib-level">
+        <span class="level-icon">🟢</span>
+        <div><strong>入门</strong>（不需要编程）<p>提交你所在城市的社保费率数据、仲裁案例</p></div>
+      </div>
+      <div class="contrib-level">
+        <span class="level-icon">🟡</span>
+        <div><strong>进阶</strong>（会写 Markdown）<p>写实操指南、提交文书模板</p></div>
+      </div>
+      <div class="contrib-level">
+        <span class="level-icon">🔴</span>
+        <div><strong>高级</strong>（会编程）<p>添加新计算器、优化 UI、增加城市数据</p></div>
+      </div>
+      <div class="repo-links">
+        <a href="https://github.com/liang80443/suanzhang" target="_blank" class="repo-link github">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <a href="https://gitee.com/liang6/suanzhang" target="_blank" class="repo-link gitee">📁 Gitee</a>
+      </div>
+      <p class="fork-hint">⭐ Star & Fork，让更多人看到！</p>
+    </div>
+
+    <div class="footer">
+      <p>⚠️ 计算结果仅供参考，不构成法律建议</p>
+      <p>遇到劳动争议 → 劳动监察大队 → 劳动仲裁（免费）→ 律师</p>
     </div>
   </div>
 
   <script>
-    // === 核心计算逻辑（与 src/calculators 同步） ===
-
     function switchTab(name) {
       document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-      document.querySelectorAll('.nav button').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
       document.getElementById('tab-' + name).style.display = 'block';
-      event.target.classList.add('active');
+      event.currentTarget.classList.add('active');
     }
 
-    function formatMoney(n) {
+    function fm(n) {
       if (n === null || n === undefined) return '需向社保局申请';
       return '¥' + n.toLocaleString();
     }
 
-    // 加班费计算
+    // === 加班费 ===
     function calcOvertime() {
       const salary = Number(document.getElementById('ot-salary').value) || 0;
       const weekday = Number(document.getElementById('ot-weekday').value) || 0;
       const weekend = Number(document.getElementById('ot-weekend').value) || 0;
       const holiday = Number(document.getElementById('ot-holiday').value) || 0;
-
       if (salary <= 0) { alert('请输入月薪'); return; }
-
       const hourly = salary / 21.75 / 8;
       const details = [];
       if (weekday > 0) details.push({ type: '工作日延长', hours: weekday, rate: 150, amount: Math.round(hourly * weekday * 1.5) });
       if (weekend > 0) details.push({ type: '休息日', hours: weekend, rate: 200, amount: Math.round(hourly * weekend * 2) });
       if (holiday > 0) details.push({ type: '法定节假日', hours: holiday, rate: 300, amount: Math.round(hourly * holiday * 3) });
       const total = details.reduce((s, d) => s + d.amount, 0);
-
-      const rateClass = r => r === 150 ? 'rate-150' : r === 200 ? 'rate-200' : 'rate-300';
-
+      const rc = r => r === 150 ? 'rate-150' : r === 200 ? 'rate-200' : 'rate-300';
       document.getElementById('ot-result').innerHTML = `
         <div class="result show">
-          <div class="result-total">
+          <div class="result-hero">
             <div class="label">你的加班费</div>
-            <div class="amount">${formatMoney(total)}</div>
-            <div class="label">时薪 ¥${hourly.toFixed(2)}（月薪÷21.75÷8）</div>
+            <div class="amount">${fm(total)}</div>
+            <div class="sub">时薪 ¥${hourly.toFixed(2)} · 月薪÷21.75÷8</div>
           </div>
           <div class="card">
-            <h2>明细</h2>
-            <table class="result-table">
-              <tr><th>类型</th><th>时长</th><th>倍率</th><th class="amount">金额</th></tr>
-              ${details.map(d => `
-                <tr>
-                  <td>${d.type}</td>
-                  <td>${d.hours} 小时</td>
-                  <td><span class="rate-tag ${rateClass(d.rate)}">${d.rate}%</span></td>
-                  <td class="amount">${formatMoney(d.amount)}</td>
-                </tr>
-              `).join('')}
-              <tr style="font-weight:700;border-top:2px solid #e0e0e0"><td colspan="3">合计</td><td class="amount">${formatMoney(total)}</td></tr>
-            </table>
-          </div>
-          <div class="card">
-            <div class="tips">
-              <h3>💡 小贴士</h3>
-              <ul>
-                <li>休息日加班可安排补休，不补休的需支付 200% 加班费</li>
-                <li>法定节假日加班必须支付 300%，不能用补休替代</li>
-                <li>加班费计算基数为税前工资，不含加班费本身</li>
-                <li>保存好加班证据：打卡记录、聊天记录、邮件等</li>
-              </ul>
+            ${details.map(d => `
+              <div class="detail-row">
+                <div class="info">
+                  <div class="type">${d.type} <span class="rate-badge ${rc(d.rate)}">${d.rate}%</span></div>
+                  <div class="desc">${d.hours} 小时</div>
+                </div>
+                <div class="value">${fm(d.amount)}</div>
+              </div>
+            `).join('')}
+            <div class="detail-row" style="border-top:2px solid var(--border);padding-top:14px">
+              <div class="info"><div class="type" style="font-size:1em">合计</div></div>
+              <div class="value" style="font-size:1.3em">${fm(total)}</div>
             </div>
+          </div>
+          <div class="tips-card">
+            <h4>💡 小贴士</h4>
+            <ul>
+              <li>休息日加班可安排补休，不补休的支付 200%</li>
+              <li>法定节假日必须支付 300%，不能用补休替代</li>
+              <li>保存好打卡记录、聊天记录、邮件等加班证据</li>
+            </ul>
           </div>
         </div>`;
     }
 
-    // 离职补偿计算
+    // === 离职补偿 ===
     function calcSeverance() {
       const salary = Number(document.getElementById('sv-salary').value) || 0;
       const years = Number(document.getElementById('sv-years').value) || 0;
@@ -266,157 +407,118 @@
       const hasContract = document.getElementById('sv-contract').checked;
       const hasInsurance = document.getElementById('sv-insurance').checked;
       const hasNotice = document.getElementById('sv-notice').checked;
-
       if (salary <= 0 || years <= 0) { alert('请填写月薪和工作年限'); return; }
-
       const rounded = years % 1 === 0 ? years : (years % 1 >= 0.5 ? Math.ceil(years) : Math.floor(years) + 0.5);
       const claims = [];
-
-      if (['dismissal', 'mutual', 'expire'].includes(reason)) {
-        claims.push({ type: '经济补偿金（N）', formula: `${rounded} 个月 × ¥${salary.toLocaleString()}`, amount: Math.round(salary * rounded), basis: '《劳动合同法》第46、47条', note: '工作年限不满6个月按0.5年，满6个月按1年' });
-      }
-      if (['dismissal', 'mutual'].includes(reason) && !hasNotice) {
-        claims.push({ type: '代通知金（+1）', formula: `1 个月 × ¥${salary.toLocaleString()}`, amount: salary, basis: '《劳动合同法》第40条', note: '仅限公司未提前30天书面通知的情况' });
-      }
-      if (reason === 'illegal') {
-        claims.push({ type: '违法解除赔偿金（2N）', formula: `${rounded} 年 × 2 × ¥${salary.toLocaleString()}`, amount: Math.round(salary * rounded * 2), basis: '《劳动合同法》第87条', note: '2N 和 N 不能同时主张，择一较高者' });
-      }
+      if (['dismissal','mutual','expire'].includes(reason))
+        claims.push({ type:'经济补偿金（N）', detail:`${rounded} 个月 × ¥${salary.toLocaleString()}`, amount:Math.round(salary*rounded), law:'《劳动合同法》第46、47条', note:'不满6个月按0.5年，满6个月按1年' });
+      if (['dismissal','mutual'].includes(reason) && !hasNotice)
+        claims.push({ type:'代通知金（+1）', detail:'1 个月 × ¥'+salary.toLocaleString(), amount:salary, law:'《劳动合同法》第40条', note:'仅限公司未提前30天书面通知' });
+      if (reason === 'illegal')
+        claims.push({ type:'违法解除赔偿金（2N）', detail:`${rounded} 年 × 2 × ¥${salary.toLocaleString()}`, amount:Math.round(salary*rounded*2), law:'《劳动合同法》第87条', note:'2N 和 N 不能同时主张' });
       if (!hasContract) {
         const months = Math.min(11, Math.floor(years));
-        if (months > 0) claims.push({ type: '未签合同双倍工资', formula: `${months} 个月 × ¥${salary.toLocaleString()}`, amount: salary * months, basis: '《劳动合同法》第82条', note: '最多11个月，有1年仲裁时效' });
+        if (months > 0) claims.push({ type:'未签合同双倍工资', detail:`${months} 个月 × ¥${salary.toLocaleString()}`, amount:salary*months, law:'《劳动合同法》第82条', note:`最多11个月，有1年仲裁时效` });
       }
-      if (!hasInsurance) {
-        claims.push({ type: '社保补缴', formula: '需向社保局申请', amount: null, basis: '《社会保险法》第58、60条', note: '无法直接折算为金额，可向社保局投诉（无时效限制）' });
-      }
-
-      const total = claims.filter(c => c.amount !== null).reduce((s, c) => s + c.amount, 0);
-
+      if (!hasInsurance)
+        claims.push({ type:'社保补缴', detail:'需向社保局申请补缴', amount:null, law:'《社会保险法》第58、60条', note:'可向社保局投诉（无时效限制）' });
+      const total = claims.filter(c=>c.amount!==null).reduce((s,c)=>s+c.amount,0);
       document.getElementById('sv-result').innerHTML = `
         <div class="result show">
-          <div class="result-total">
+          <div class="result-hero">
             <div class="label">你最多可主张</div>
-            <div class="amount">${formatMoney(total)}</div>
+            <div class="amount">${fm(total)}</div>
+            <div class="sub">${claims.length} 项赔偿</div>
           </div>
-          <div class="card">
-            <h2>赔偿明细</h2>
-            ${claims.map(c => `
-              <div class="claim-item">
-                <div class="claim-title">${c.type}</div>
-                <div class="claim-formula">${c.formula}</div>
-                <div class="claim-amount">${formatMoney(c.amount)}</div>
-                <div class="claim-note">${c.note}</div>
-                <div class="claim-basis">法律依据：${c.basis}</div>
-              </div>
-            `).join('')}
-          </div>
-          <div class="card">
-            <div class="tips">
-              <h3>💡 小贴士</h3>
-              <ul>
-                <li>月薪基数以解除前12个月平均工资为准，含奖金、津贴</li>
-                <li>月薪上限为当地社平工资的3倍（高薪人士适用）</li>
-                <li>劳动仲裁时效为1年，从知道权利被侵害之日起算</li>
-                <li>保存好：劳动合同、工资条、解除通知书、考勤记录</li>
-              </ul>
+          ${claims.map(c => `
+            <div class="claim-card">
+              <div class="claim-type">${c.type}</div>
+              <div class="claim-detail">${c.detail}</div>
+              <div class="claim-amount">${fm(c.amount)}</div>
+              <div class="claim-note">${c.note}</div>
+              <div class="claim-law">${c.law}</div>
             </div>
+          `).join('')}
+          <div class="tips-card" style="margin-top:10px">
+            <h4>💡 小贴士</h4>
+            <ul>
+              <li>月薪基数以解除前12个月平均工资为准</li>
+              <li>保存好：劳动合同、工资条、解除通知书、考勤记录</li>
+              <li>劳动仲裁时效1年，从知道权利被侵害之日起算</li>
+            </ul>
           </div>
         </div>`;
     }
 
-    // 社保公积金计算
+    // === 社保公积金 ===
     function calcInsurance() {
       const salary = Number(document.getElementById('si-salary').value) || 0;
       const region = document.getElementById('si-region').value;
       if (salary <= 0) { alert('请输入月薪'); return; }
-
-      // 城市费率数据
       const cities = {
-        beijing: { name: '北京', pension: [8,16], medical: [2,9.8], unemploy: [0.5,0.5], injury: [0,0.4], maternity: [0,0.8], fund: [12,12], fundRange: [2420,35283] },
-        shanghai: { name: '上海', pension: [8,16], medical: [2,9.5], unemploy: [0.5,0.5], injury: [0,0.16], maternity: [0,1], fund: [7,7], fundRange: [2690,36549] },
-        shenzhen: { name: '深圳', pension: [8,16], medical: [2,5.2], unemploy: [0.3,0.7], injury: [0,0.14], maternity: [0,0.45], fund: [5,5], fundRange: [2360,27501] },
-        guangzhou: { name: '广州', pension: [8,16], medical: [2,5.5], unemploy: [0.2,0.8], injury: [0,0.2], maternity: [0,0.85], fund: [5,5], fundRange: [2300,38082] },
-        zhengzhou: { name: '郑州', pension: [8,16], medical: [2,8], unemploy: [0.3,0.7], injury: [0,0.2], maternity: [0,1], fund: [12,12], fundRange: [2100,28134] },
-        hangzhou: { name: '杭州', pension: [8,14], medical: [2,9.5], unemploy: [0.5,0.5], injury: [0,0.2], maternity: [0,1.2], fund: [12,12], fundRange: [2490,36318] }
+        beijing: { name:'北京', pension:[8,16], medical:[2,9.8], unemploy:[0.5,0.5], injury:[0,0.4], maternity:[0,0.8], fund:[12,12], fr:[2420,35283] },
+        shanghai: { name:'上海', pension:[8,16], medical:[2,9.5], unemploy:[0.5,0.5], injury:[0,0.16], maternity:[0,1], fund:[7,7], fr:[2690,36549] },
+        shenzhen: { name:'深圳', pension:[8,16], medical:[2,5.2], unemploy:[0.3,0.7], injury:[0,0.14], maternity:[0,0.45], fund:[5,5], fr:[2360,27501] },
+        guangzhou: { name:'广州', pension:[8,16], medical:[2,5.5], unemploy:[0.2,0.8], injury:[0,0.2], maternity:[0,0.85], fund:[5,5], fr:[2300,38082] },
+        zhengzhou: { name:'郑州', pension:[8,16], medical:[2,8], unemploy:[0.3,0.7], injury:[0,0.2], maternity:[0,1], fund:[12,12], fr:[2100,28134] },
+        hangzhou: { name:'杭州', pension:[8,14], medical:[2,9.5], unemploy:[0.5,0.5], injury:[0,0.2], maternity:[0,1.2], fund:[12,12], fr:[2490,36318] }
       };
-
       const c = cities[region];
-      const base = Math.max(c.fundRange[0], Math.min(salary, c.fundRange[1]));
+      const base = Math.max(c.fr[0], Math.min(salary, c.fr[1]));
       const items = [
-        { name: '养老保险', pRate: c.pension[0], cRate: c.pension[1] },
-        { name: '医疗保险', pRate: c.medical[0], cRate: c.medical[1] },
-        { name: '失业保险', pRate: c.unemploy[0], cRate: c.unemploy[1] },
-        { name: '工伤保险', pRate: 0, cRate: c.injury[1] },
-        { name: '生育保险', pRate: 0, cRate: c.maternity[1] },
-        { name: '住房公积金', pRate: c.fund[0], cRate: c.fund[1], note: `基数 ¥${base.toLocaleString()}` }
+        { name:'养老保险', pR:c.pension[0], cR:c.pension[1] },
+        { name:'医疗保险', pR:c.medical[0], cR:c.medical[1] },
+        { name:'失业保险', pR:c.unemploy[0], cR:c.unemploy[1] },
+        { name:'工伤保险', pR:0, cR:c.injury[1] },
+        { name:'生育保险', pR:0, cR:c.maternity[1] },
+        { name:'住房公积金', pR:c.fund[0], cR:c.fund[1], isFund:true }
       ];
-
       items.forEach(i => {
-        i.personal = i.name === '住房公积金' ? Math.round(base * i.pRate / 100) : Math.round(salary * i.pRate / 100);
-        i.company = i.name === '住房公积金' ? Math.round(base * i.cRate / 100) : Math.round(salary * i.cRate / 100);
+        const b = i.isFund ? base : salary;
+        i.p = Math.round(b * i.pR / 100);
+        i.c = Math.round(b * i.cR / 100);
       });
-
-      const tp = items.reduce((s, i) => s + i.personal, 0);
-      const tc = items.reduce((s, i) => s + i.company, 0);
-      const takeHome = salary - tp;
-
+      const tp = items.reduce((s,i) => s+i.p, 0);
+      const tc = items.reduce((s,i) => s+i.c, 0);
       document.getElementById('si-result').innerHTML = `
         <div class="result show">
-          <div class="result-total">
+          <div class="result-hero">
             <div class="label">${c.name} · 月薪 ¥${salary.toLocaleString()}</div>
-            <div class="amount">到手约 ${formatMoney(takeHome)}</div>
-            <div class="label">个人月缴 ${formatMoney(tp)} | 公司月缴 ${formatMoney(tc)}</div>
+            <div class="amount">到手约 ${fm(salary - tp)}</div>
+            <div class="sub">个人缴 ${fm(tp)} · 公司缴 ${fm(tc)}</div>
           </div>
           <div class="card">
-            <h2>缴纳明细</h2>
-            <table class="result-table">
-              <tr><th>项目</th><th>个人</th><th>公司</th><th>个人费率</th><th>公司费率</th></tr>
-              ${items.map(i => `
-                <tr>
-                  <td>${i.name}</td>
-                  <td class="amount">${formatMoney(i.personal)}</td>
-                  <td class="amount">${formatMoney(i.company)}</td>
-                  <td>${i.pRate}%</td>
-                  <td>${i.cRate}%</td>
-                </tr>
-              `).join('')}
-              <tr style="font-weight:700;border-top:2px solid #e0e0e0">
-                <td>合计</td>
-                <td class="amount">${formatMoney(tp)}</td>
-                <td class="amount">${formatMoney(tc)}</td>
-                <td colspan="2">${formatMoney(tp + tc)}</td>
-              </tr>
-            </table>
-          </div>
-          <div class="card">
-            <div class="tips">
-              <h3>💡 小贴士</h3>
-              <ul>
-                <li>以上为 ${c.name} 参考费率，实际以当地最新政策为准</li>
-                <li>到手工资为粗略估算，不含个税和专项扣除</li>
-                <li>公积金基数范围 ¥${c.fundRange[0]}-¥${c.fundRange[1].toLocaleString()}</li>
-                <li>如果发现实际缴纳与计算不符，可向社保局投诉</li>
-                <li>你的城市不在这里？<a href="https://gitee.com/liang6/suanzhang" target="_blank" style="color:#4a6cf7">提交 PR 添加！</a></li>
-              </ul>
+            ${items.map(i => `
+              <div class="detail-row">
+                <div class="info">
+                  <div class="type">${i.name}</div>
+                  <div class="desc">个人${i.pR}% · 公司${i.cR}%${i.isFund ? ' · 基数¥'+base.toLocaleString() : ''}</div>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-size:0.8em;color:var(--text-secondary)">${fm(i.c)}</div>
+                  <div style="font-weight:700;color:var(--primary)">${fm(i.p)}</div>
+                </div>
+              </div>
+            `).join('')}
+            <div class="detail-row" style="border-top:2px solid var(--border);padding-top:14px">
+              <div class="info"><div class="type">合计</div></div>
+              <div style="text-align:right">
+                <div style="font-size:0.8em;color:var(--text-secondary)">${fm(tc)}</div>
+                <div style="font-weight:800;color:var(--primary);font-size:1.1em">${fm(tp)}</div>
+              </div>
             </div>
+          </div>
+          <div class="tips-card">
+            <h4>💡 小贴士</h4>
+            <ul>
+              <li>以上为${c.name}参考费率，实际以最新政策为准</li>
+              <li>到手为粗略估算，不含个税和专项扣除</li>
+              <li>公积金基数 ¥${c.fr[0]}-¥${c.fr[1].toLocaleString()}</li>
+              <li>你的城市不在这里？<a href="https://github.com/liang80443/suanzhang" target="_blank" style="color:var(--primary)">提交 PR 添加！</a></li>
+            </ul>
           </div>
         </div>`;
     }
   </script>
-
-  <div class="contribute" style="max-width:800px;margin:0 auto;padding:20px;">
-    <div style="background:white;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-      <h3 style="font-size:1.3em;margin-bottom:12px;">🤝 欢迎参与贡献</h3>
-      <p style="color:#666;margin-bottom:16px;">这是一个社区驱动的开源项目，每种贡献都很珍贵：</p>
-      <div style="margin-bottom:8px;">🟢 <strong>入门</strong>（不需要编程）— 提交你所在城市的社保费率数据、仲裁案例</div>
-      <div style="margin-bottom:8px;">🟡 <strong>进阶</strong>（会写 Markdown）— 写实操指南、提交文书模板</div>
-      <div style="margin-bottom:16px;">🔴 <strong>高级</strong>（会编程）— 添加新计算器、优化UI、增加城市数据</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
-        <a href="https://github.com/liang80443/suanzhang" target="_blank" style="flex:1;min-width:200px;display:block;text-align:center;padding:14px;background:#24292e;color:white;border-radius:8px;text-decoration:none;font-weight:600;">📁 GitHub 仓库</a>
-        <a href="https://gitee.com/liang6/suanzhang" target="_blank" style="flex:1;min-width:200px;display:block;text-align:center;padding:14px;background:#c71d23;color:white;border-radius:8px;text-decoration:none;font-weight:600;">📁 Gitee 仓库</a>
-      </div>
-      <p style="text-align:center;color:#4a6cf7;font-weight:600;">⭐ Star & Fork，让更多人看到！</p>
-    </div>
-    <p style="text-align:center;padding:20px;color:#999;font-size:0.85em;">⚠️ 本工具计算结果仅供参考，不构成法律建议</p>
-  </div>
 </body>
 </html>
