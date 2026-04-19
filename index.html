@@ -24,7 +24,7 @@
       --text: #1e293b;
       --text-secondary: #64748b;
       --border: #e2e8f0;
-      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
       --radius: 16px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -48,7 +48,13 @@
     .hero .stat-label { font-size: 0.8em; color: var(--text-secondary); }
 
     /* Tabs */
-    .tabs { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; background: var(--card); border-radius: 12px; padding: 4px; box-shadow: var(--shadow); margin-bottom: 20px; }
+    .tabs-wrapper { position: relative; margin-bottom: 20px; }
+    .tabs-wrapper::after {
+      content: ''; position: absolute; top: 4px; right: 0; bottom: 4px; width: 24px;
+      background: linear-gradient(to right, transparent, var(--card));
+      pointer-events: none; border-radius: 0 12px 12px 0;
+    }
+    .tabs { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; background: var(--card); border-radius: 12px; padding: 4px; box-shadow: var(--shadow); }
     .tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
       flex: 0 0 auto; min-width: max-content; padding: 10px 14px; border: none; border-radius: 10px;
@@ -70,7 +76,7 @@
 
     /* Form */
     .form-group { margin-bottom: 14px; }
-    .form-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 0.9em; font-weight: 600; }
+    .form-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.9em; font-weight: 600; }
     .form-label .hint { font-weight: 400; color: var(--text-secondary); font-size: 0.85em; }
     .form-input {
       width: 100%; padding: 12px 16px; border: 2px solid var(--border);
@@ -97,6 +103,8 @@
       border-radius: 8px; padding: 6px 14px; font-size: 0.85em;
       cursor: pointer; color: var(--text-secondary); transition: all 0.2s;
     }
+    .btn-screenshot { display: none; margin: 8px auto 0; background: none; border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-size: 0.85em; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; width: auto; }
+    .btn-screenshot.show { display: block; }
     .btn-screenshot:hover { border-color: var(--primary); color: var(--primary); }
 
     /* Result */
@@ -151,8 +159,8 @@
 
     /* Contribute */
     .contribute {
-      background: var(--card); border-radius: var(--radius); padding: 20px;
-      box-shadow: var(--shadow); margin-top: 8px;
+      background: linear-gradient(135deg, #f0fdf4, #ecfdf5); border-radius: var(--radius); padding: 20px;
+      box-shadow: var(--shadow); margin-top: 8px; border: 1px solid #bbf7d0;
     }
     .contribute h3 { font-size: 1.1em; margin-bottom: 4px; }
     .contribute > p { font-size: 0.9em; color: var(--text-secondary); margin-bottom: 14px; }
@@ -204,14 +212,14 @@
           <div class="stat-label">城市</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">免费开源</div>
+          <div class="stat-num" style="font-size:1.1em;color:var(--success)">开源免费</div>
+          <div class="stat-label">永久免费</div>
         </div>
       </div>
     </div>
 
     <!-- Tabs -->
-    <div class="tabs">
+    <div class="tabs-wrapper"><div class="tabs">
       <button class="tab-btn active" onclick="switchTab('overtime')">⏰ 加班费</button>
       <button class="tab-btn" onclick="switchTab('severance')">👋 离职补偿</button>
       <button class="tab-btn" onclick="switchTab('insurance')">🏥 社保</button>
@@ -220,7 +228,7 @@
       <button class="tab-btn" onclick="switchTab('injury')">🩹 工伤</button>
       <button class="tab-btn" onclick="switchTab('tax')">🧾 个税</button>
       <button class="tab-btn" onclick="switchTab('sick')">🤒 病假</button>
-    </div>
+    </div></div>
 
     <!-- 加班费 -->
     <div id="tab-overtime" class="tab-content">
@@ -250,8 +258,8 @@
             <input type="number" id="ot-holiday" class="form-input form-input-sm" placeholder="0" value="4">
           </div>
         </div>
-        <button class="btn" onclick="calcOvertime()">算算我该拿多少 →</button>
-        <div style="text-align:center"><button class="btn-screenshot" id="btn-ot" onclick="saveResult('btn-ot','ot-result')">📸 保存截图</button></div>
+        <button class="btn" onclick="calcOvertime(this)">算算我该拿多少 →</button>
+        <div class="screenshot-wrap" style="text-align:center"><button class="btn-screenshot" id="btn-ot" onclick="saveResult('btn-ot','ot-result')">📸 保存截图</button></div>
       </div>
       <div id="ot-result" class="result"></div>
     </div>
@@ -289,8 +297,8 @@
         <label class="form-check"><input type="checkbox" id="sv-contract" checked> 有书面劳动合同</label>
         <label class="form-check"><input type="checkbox" id="sv-insurance" checked> 公司缴纳社保</label>
         <label class="form-check"><input type="checkbox" id="sv-notice" checked> 公司提前 30 天通知</label>
-        <button class="btn" onclick="calcSeverance()">算算我能拿多少 →</button>
-        <div style="text-align:center"><button class="btn-screenshot" id="btn-sv" onclick="saveResult('btn-sv','sv-result')">📸 保存截图</button></div>
+        <button class="btn" onclick="calcSeverance(this)">算算我能拿多少 →</button>
+        <div class="screenshot-wrap" style="text-align:center"><button class="btn-screenshot" id="btn-sv" onclick="saveResult('btn-sv','sv-result')">📸 保存截图</button></div>
       </div>
       <div id="sv-result" class="result"></div>
     </div>
@@ -331,8 +339,8 @@
             </select>
           </div>
         </div>
-        <button class="btn" onclick="calcInsurance()">算算到手多少 →</button>
-        <div style="text-align:center"><button class="btn-screenshot" id="btn-si" onclick="saveResult('btn-si','si-result')">📸 保存截图</button></div>
+        <button class="btn" onclick="calcInsurance(this)">算算到手多少 →</button>
+        <div class="screenshot-wrap" style="text-align:center"><button class="btn-screenshot" id="btn-si" onclick="saveResult('btn-si','si-result')">📸 保存截图</button></div>
       </div>
       <div id="si-result" class="result"></div>
     </div>
@@ -421,8 +429,8 @@
             </select>
           </div>
         </div>
-        <button class="btn" onclick="calcAnnual()">算算年假怎么算 →</button>
-        <div style="text-align:center"><button class="btn-screenshot" id="btn-an" onclick="saveResult('btn-an','an-result')">📸 保存截图</button></div>
+        <button class="btn" onclick="calcAnnual(this)">算算年假怎么算 →</button>
+        <div class="screenshot-wrap" style="text-align:center"><button class="btn-screenshot" id="btn-an" onclick="saveResult('btn-an','an-result')">📸 保存截图</button></div>
       </div>
       <div id="an-result" class="result"></div>
     </div>
@@ -463,8 +471,8 @@
             </select>
           </div>
         </div>
-        <button class="btn" onclick="calcInjury()">算算工伤赔偿 →</button>
-        <div style="text-align:center"><button class="btn-screenshot" id="btn-inj" onclick="saveResult('btn-inj','inj-result')">📸 保存截图</button></div>
+        <button class="btn" onclick="calcInjury(this)">算算工伤赔偿 →</button>
+        <div class="screenshot-wrap" style="text-align:center"><button class="btn-screenshot" id="btn-inj" onclick="saveResult('btn-inj','inj-result')">📸 保存截图</button></div>
       </div>
       <div id="inj-result" class="result"></div>
     </div>
@@ -503,8 +511,8 @@
             <input type="number" id="tx-house" class="form-input form-input-sm" value="1500">
           </div>
         </div>
-        <button class="btn" onclick="calcTax()">算算到手多少 →</button>
-        <div style="text-align:center"><button class="btn-screenshot" id="btn-tx" onclick="saveResult('btn-tx','tx-result')">📸 保存截图</button></div>
+        <button class="btn" onclick="calcTax(this)">算算到手多少 →</button>
+        <div class="screenshot-wrap" style="text-align:center"><button class="btn-screenshot" id="btn-tx" onclick="saveResult('btn-tx','tx-result')">📸 保存截图</button></div>
       </div>
       <div id="tx-result" class="result"></div>
     </div>
@@ -544,8 +552,8 @@
             </select>
           </div>
         </div>
-        <button class="btn" onclick="calcSick()">算算病假工资 →</button>
-        <div style="text-align:center"><button class="btn-screenshot" id="btn-sk" onclick="saveResult('btn-sk','sk-result')">📸 保存截图</button></div>
+        <button class="btn" onclick="calcSick(this)">算算病假工资 →</button>
+        <div class="screenshot-wrap" style="text-align:center"><button class="btn-screenshot" id="btn-sk" onclick="saveResult('btn-sk','sk-result')">📸 保存截图</button></div>
       </div>
       <div id="sk-result" class="result"></div>
     </div>
@@ -612,7 +620,10 @@
     function switchTab(name) {
       document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      document.getElementById('tab-' + name).style.display = 'block';
+      const tab = document.getElementById('tab-' + name);
+      tab.style.display = 'block';
+      tab.style.opacity = '0'; tab.style.transform = 'translateY(8px)';
+      requestAnimationFrame(() => { tab.style.transition = 'all 0.25s ease'; tab.style.opacity = '1'; tab.style.transform = 'translateY(0)'; });
       if (event && event.currentTarget) event.currentTarget.classList.add('active');
       else document.querySelector(`[onclick*="switchTab('${name}')"]`).classList.add('active');
     }
@@ -624,6 +635,13 @@
     function esc(s) {
       const d = document.createElement('div'); d.textContent = String(s); return d.innerHTML;
     }
+    let _calcLock = false;
+    function calcGuard(btn) {
+      if (_calcLock) return false;
+      _calcLock = true; btn.disabled = true; btn.textContent = '计算中...';
+      setTimeout(() => { btn.disabled = false; _calcLock = false; }, 600);
+      return true;
+    }
 
     // === 加班费 ===
     const HOLIDAYS_2026 = [
@@ -633,7 +651,7 @@
       {name:'国庆节',dates:['10-01','10-02','10-03']}
     ];
     const HOLIDAY_COUNT = HOLIDAYS_2026.reduce((s,h) => s+h.dates.length, 0);
-    function calcOvertime() {
+    function calcOvertime(btn) { if (!calcGuard(btn)) return;
       const salary = Number(document.getElementById('ot-salary').value) || 0;
       const weekday = Math.max(0, Number(document.getElementById('ot-weekday').value) || 0);
       const weekend = Math.max(0, Number(document.getElementById('ot-weekend').value) || 0);
@@ -683,7 +701,7 @@
     }
 
     // === 离职补偿 ===
-    function calcSeverance() {
+    function calcSeverance(btn) { if (!calcGuard(btn)) return;
       const salary = Number(document.getElementById('sv-salary').value) || 0;
       const years = Number(document.getElementById('sv-years').value) || 0;
       const reason = document.getElementById('sv-reason').value;
@@ -742,7 +760,7 @@
     }
 
     // === 社保公积金 ===
-    function calcInsurance() {
+    function calcInsurance(btn) { if (!calcGuard(btn)) return;
       const salary = Number(document.getElementById('si-salary').value) || 0;
       const region = document.getElementById('si-region').value;
       if (salary <= 0) { alert('请输入有效的月薪'); return; }
@@ -824,7 +842,7 @@
     }
 
     // === 年假 ===
-    function calcAnnual() {
+    function calcAnnual(btn) { if (!calcGuard(btn)) return;
       const salary = Number(document.getElementById('an-salary').value) || 0;
       const years = Math.max(0, Number(document.getElementById('an-years').value) || 0);
       const taken = Math.max(0, Number(document.getElementById('an-taken').value) || 0);
@@ -873,7 +891,7 @@
     }
 
     // === 工伤 ===
-    function calcInjury() {
+    function calcInjury(btn) { if (!calcGuard(btn)) return;
       const salary = Number(document.getElementById('inj-salary').value) || 0;
       const level = Number(document.getElementById('inj-level').value);
       const rest = Math.max(0, Number(document.getElementById('inj-rest').value) || 0);
@@ -919,7 +937,7 @@
     }
 
     // === 个税 ===
-    function calcTax() {
+    function calcTax(btn) { if (!calcGuard(btn)) return;
       const salary = Number(document.getElementById('tx-salary').value) || 0;
       const insurance = Number(document.getElementById('tx-insurance').value) || 0;
       const special = Number(document.getElementById('tx-special').value) || 0;
@@ -975,7 +993,7 @@
     }
 
     // === 病假 ===
-    function calcSick() {
+    function calcSick(btn) { if (!calcGuard(btn)) return;
       const salary = Number(document.getElementById('sk-salary').value) || 0;
       const years = Math.max(0, Number(document.getElementById('sk-years').value) || 0);
       const days = Math.max(1, Number(document.getElementById('sk-days').value) || 0);
