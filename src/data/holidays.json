@@ -1,0 +1,24 @@
+# 2026 年法定节假日数据
+[
+  { "name": "元旦", "date": "2026-01-01", "type": "holiday" },
+  { "name": "春节", "date": "2026-02-17", "type": "holiday" },
+  { "name": "春节", "date": "2026-02-18", "type": "holiday" },
+  { "name": "春节", "date": "2026-02-19", "type": "holiday" },
+  { "name": "清明节", "date": "2026-04-05", "type": "holiday" },
+  { "name": "劳动节", "date": "2026-05-01", "type": "holiday" },
+  { "name": "劳动节", "date": "2026-05-02", "type": "holiday" },
+  { "name": "劳动节", "date": "2026-05-03", "type": "holiday" },
+  { "name": "端午节", "date": "2026-06-19", "type": "holiday" },
+  { "name": "中秋节", "date": "2026-09-12", "type": "holiday" },
+  { "name": "国庆节", "date": "2026-10-01", "type": "holiday" },
+  { "name": "国庆节", "date": "2026-10-02", "type": "holiday" },
+  { "name": "国庆节", "date": "2026-10-03", "type": "holiday" }
+]
+
+# 调休上班日（周末但算工作日）
+[
+  { "name": "春节调休", "date": "2026-02-14", "type": "workday" },
+  { "name": "春节调休", "date": "2026-02-15", "type": "workday" },
+  { "name": "国庆调休", "date": "2026-10-10", "type": "workday" },
+  { "name": "国庆调休", "date": "2026-10-11", "type": "workday" }
+]

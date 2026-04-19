@@ -1,0 +1,15 @@
+{
+  "name": "suanzhang",
+  "version": "0.1.0",
+  "description": "💰 算算这笔账 — 开源劳动权益计算工具箱",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": ["labor-rights", "overtime", "severance", "social-insurance", "中国劳动法"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/liang6/suanzhang.git"
+  }
+}

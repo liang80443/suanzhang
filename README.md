@@ -1,0 +1,107 @@
+# 💰 算账（SuanZhang）
+
+> 你的时间值多少钱？来算算。
+
+一个开源的、社区驱动的劳动者权益计算工具箱。不站队、不收割、不废话，帮你算清楚每一笔该拿的钱。
+
+## ✨ 功能
+
+### 🔧 计算器
+- **加班费计算器** — 工作日(150%)、休息日(200%)、法定节假日(300%)，一键算清
+- **离职补偿计算器** — N、N+1、2N、双倍工资，各种场景全覆盖
+- **社保公积金计算器** — 6 城（北京/上海/深圳/广州/郑州/杭州）费率已内置
+
+### 📊 开放数据
+- 各城市社保/公积金费率（社区持续补充）
+- 仲裁判例摘要（欢迎投稿）
+- 法定节假日数据
+
+### 📖 实操指南（规划中）
+- 「被裁了怎么办」
+- 「加班费追索实操」
+- 「劳动仲裁完全指南」
+- 文书模板（仲裁申请书、离职协议等）
+
+## 🚀 使用
+
+```bash
+npm install suanzhang
+```
+
+```javascript
+const { calculateOvertime, calculateSeverance, calculateSocialInsurance } = require('suanzhang');
+
+// 算加班费
+const overtime = calculateOvertime({
+  monthlySalary: 10000,
+  weekdayHours: 10,  // 工作日加班10小时
+  weekendHours: 8,   // 周末加班8小时
+  holidayHours: 4    // 法定节假日加班4小时
+});
+console.log(`你的加班费：¥${overtime.summary.total}`);
+
+// 算离职补偿
+const severance = calculateSeverance({
+  monthlySalary: 15000,
+  years: 3.5,
+  reason: 'illegal'  // 违法解除 → 2N
+});
+console.log(`你的赔偿金：¥${severance.summary.total}`);
+
+// 算社保公积金
+const insurance = calculateSocialInsurance({
+  monthlySalary: 10000,
+  region: 'zhengzhou'
+});
+console.log(`个人月缴：¥${insurance.summary.totalPersonal}`);
+console.log(`实际到手：约 ¥${insurance.summary.takeHome}`);
+```
+
+## 🌐 在线使用
+
+> 即将上线 GitHub Pages，敬请期待。
+
+## 🤝 参与贡献
+
+这是一个社区驱动的项目，每种贡献都很珍贵：
+
+### 🟢 入门（不需要编程）
+- 提交你所在城市的社保/公积金费率数据
+- 补充一个仲裁案例摘要
+- 指出计算结果的错误
+
+### 🟡 进阶（会写 Markdown）
+- 写一篇实操指南（"我在 XX 仲裁成功了"）
+- 提交一个文书模板
+- 优化文档
+
+### 🔴 高级（会编程）
+- 添加新的计算器
+- 优化 UI/UX
+- 增加更多城市的费率数据
+
+详细指南请看 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+## ⚖️ 免责声明
+
+本工具提供的所有计算结果**仅供参考**，不构成法律建议。具体金额以当地劳动仲裁委员会裁决为准。
+
+如果您遇到劳动争议，建议：
+1. 先向当地劳动监察大队投诉
+2. 必要时申请劳动仲裁（免费）
+3. 复杂案件咨询专业律师
+
+本工具由社区开源维护，贡献者不对计算结果的准确性承担法律责任。
+
+## 📄 许可证
+
+[MIT](LICENSE)
+
+## 🙏 致谢
+
+- 数据来源：各地人社局、公积金管理中心公开信息
+- 法律依据：《中华人民共和国劳动法》《劳动合同法》《社会保险法》
+
+---
+
+**一句话：咱算算这笔账。**
