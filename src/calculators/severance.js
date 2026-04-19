@@ -17,7 +17,7 @@ function calculateSeverance({ monthlySalary, years, reason, hasWrittenContract =
   const claims = [];
 
   // 工作年限计算规则：不满6个月=0.5年，满6个月不满1年=1年
-  const roundedYears = years % 1 >= 0.5 ? Math.ceil(years) : Math.floor(years) + 0.5;
+  const roundedYears = years % 1 === 0 ? years : (years % 1 >= 0.5 ? Math.ceil(years) : Math.floor(years) + 0.5);
 
   // === 经济补偿金 N ===
   // 适用条件：公司辞退、协商解除、合同到期公司不续签、经济性裁员

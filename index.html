@@ -269,7 +269,7 @@
 
       if (salary <= 0 || years <= 0) { alert('请填写月薪和工作年限'); return; }
 
-      const rounded = years % 1 >= 0.5 ? Math.ceil(years) : Math.floor(years) + 0.5;
+      const rounded = years % 1 === 0 ? years : (years % 1 >= 0.5 ? Math.ceil(years) : Math.floor(years) + 0.5);
       const claims = [];
 
       if (['dismissal', 'mutual', 'expire'].includes(reason)) {
