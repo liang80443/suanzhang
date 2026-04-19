@@ -366,8 +366,9 @@
       if (holiday > 0) details.push({ type: '法定节假日', hours: holiday, rate: 300, amount: Math.round(hourly * holiday * 3) });
       const total = details.reduce((s, d) => s + d.amount, 0);
       const rc = r => r === 150 ? 'rate-150' : r === 200 ? 'rate-200' : 'rate-300';
-      document.getElementById('ot-result').innerHTML = `
-        <div class="result show">
+      const otEl = document.getElementById('ot-result');
+      otEl.innerHTML = `
+        <div>
           <div class="result-hero">
             <div class="label">你的加班费</div>
             <div class="amount">${fm(total)}</div>
@@ -397,6 +398,7 @@
             </ul>
           </div>
         </div>`;
+      otEl.classList.add('show');
     }
 
     // === 离职补偿 ===
@@ -423,8 +425,9 @@
       if (!hasInsurance)
         claims.push({ type:'社保补缴', detail:'需向社保局申请补缴', amount:null, law:'《社会保险法》第58、60条', note:'可向社保局投诉（无时效限制）' });
       const total = claims.filter(c=>c.amount!==null).reduce((s,c)=>s+c.amount,0);
-      document.getElementById('sv-result').innerHTML = `
-        <div class="result show">
+      const svEl = document.getElementById('sv-result');
+      svEl.innerHTML = `
+        <div>
           <div class="result-hero">
             <div class="label">你最多可主张</div>
             <div class="amount">${fm(total)}</div>
@@ -448,6 +451,7 @@
             </ul>
           </div>
         </div>`;
+      svEl.classList.add('show');
     }
 
     // === 社保公积金 ===
@@ -480,8 +484,9 @@
       });
       const tp = items.reduce((s,i) => s+i.p, 0);
       const tc = items.reduce((s,i) => s+i.c, 0);
-      document.getElementById('si-result').innerHTML = `
-        <div class="result show">
+      const siEl = document.getElementById('si-result');
+      siEl.innerHTML = `
+        <div>
           <div class="result-hero">
             <div class="label">${c.name} · 月薪 ¥${salary.toLocaleString()}</div>
             <div class="amount">到手约 ${fm(salary - tp)}</div>
@@ -518,6 +523,7 @@
             </ul>
           </div>
         </div>`;
+      siEl.classList.add('show');
     }
   </script>
 </body>
