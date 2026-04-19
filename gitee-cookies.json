@@ -1,0 +1,122 @@
+[
+  {
+    "name": "user_locale",
+    "value": "zh-CN",
+    "domain": ".gitee.com",
+    "path": "/",
+    "expires": 1811143442.507842,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "oschina_new_user",
+    "value": "false",
+    "domain": "gitee.com",
+    "path": "/",
+    "expires": 1811143443.699552,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "abymg_id",
+    "value": "1_DCF61E16938AEB6307FF6032DB6391B2A6078D65FB9CB6CDC9EC260AC783EA08",
+    "domain": ".gitee.com",
+    "path": "/",
+    "expires": 1811143442.50795,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "None"
+  },
+  {
+    "name": "BEC",
+    "value": "4431548549a19240b277aa1ec69b0837",
+    "domain": "gitee.com",
+    "path": "/",
+    "expires": 1776709442.507965,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "tz",
+    "value": "Asia%2FShanghai",
+    "domain": "gitee.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "HMACCOUNT_BFESS",
+    "value": "F0FD4D20B4AB2BA4",
+    "domain": ".hm.baidu.com",
+    "path": "/",
+    "expires": 1811143442.854015,
+    "httpOnly": false,
+    "secure": true,
+    "sameSite": "None"
+  },
+  {
+    "name": "remote_way",
+    "value": "http",
+    "domain": "gitee.com",
+    "path": "/",
+    "expires": 1808119443,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "Hm_lvt_24f17767262929947cc3631f99bfd274",
+    "value": "1776583443",
+    "domain": ".gitee.com",
+    "path": "/",
+    "expires": 1808119443,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "Hm_lpvt_24f17767262929947cc3631f99bfd274",
+    "value": "1776583443",
+    "domain": ".gitee.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "HMACCOUNT",
+    "value": "F0FD4D20B4AB2BA4",
+    "domain": ".gitee.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "BEC",
+    "value": "88597e59d42bb01c4649d5c631bbb39c",
+    "domain": "foruda.gitee.com",
+    "path": "/",
+    "expires": 1776703443.411178,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "gitee-session-n",
+    "value": "YzJTZzNiSDNzUFlIMVBxNDlMcVhDVE1sTW4xazkzK1o2ZGh4TEcyTDVtcGlaSktrNjROYUdQVy9kb3ZDS0kxcGV4N1R3K0kyZmFXWGwxMkVHMDMvd0FFV0EwTHVrZU8vY1BJSFZtTnFlYk5rTEsxVGx6WGtqRkh2NG9jWkEra0ZnMk9RaGllU2tnV3NVNy90dzBlWXRNUGhVT2xuVTJzNkZzdjM4dFo4dmdMWFUwRTVLblZHYm9rZ0xIY3AvVDVELS1ROW1qVXFXcUZRaFFBa3RyTVVxc3ZRPT0%3D--7a8518c7621cf354dda0ce6a5700caa586c84622",
+    "domain": ".gitee.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "Lax"
+  }
+]
