@@ -1,8 +1,8 @@
-const { calculateOvertime } = require('./calculators/overtime');
-const { calculateSeverance } = require('./calculators/severance');
-const { calculateSocialInsurance, getSupportedRegions } = require('./calculators/social-insurance');
+import { calculateOvertime } from './calculators/overtime.js';
+import { calculateSeverance } from './calculators/severance.js';
+import { calculateSocialInsurance, getSupportedRegions } from './calculators/social-insurance.js';
 
-module.exports = {
+export {
   calculateOvertime,
   calculateSeverance,
   calculateSocialInsurance,

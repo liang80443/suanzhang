@@ -12,8 +12,6 @@
  * @returns {Object} 计算结果
  */
 function calculateOvertime({ monthlySalary, weekdayHours = 0, weekendHours = 0, holidayHours = 0, region }) {
-  // 时薪 = 月薪 ÷ 21.75天 ÷ 8小时
-  // 21.75天为月计薪天数（劳动法规定）
   const dailySalary = monthlySalary / 21.75;
   const hourlySalary = dailySalary / 8;
 
@@ -72,4 +70,4 @@ function calculateOvertime({ monthlySalary, weekdayHours = 0, weekendHours = 0, 
   };
 }
 
-module.exports = { calculateOvertime };
+export { calculateOvertime };

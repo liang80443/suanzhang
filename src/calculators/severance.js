@@ -1,32 +1,25 @@
 // 离职补偿计算器
 // 法律依据：《劳动合同法》第46、47、48、82、87条
 
-/**
- * 计算离职补偿
- * @param {Object} params
- * @param {number} params.monthlySalary - 月薪基数（元）
- * @param {number} params.years - 工作年限（支持小数，如 3.5 = 3年6个月）
- * @param {string} params.reason - 离职原因：dismissal(公司辞退) | mutual(协商解除) | illegal(违法解除) | expire(合同到期不续签) | resign(主动辞职)
- * @param {boolean} [params.hasWrittenContract=true] - 是否有书面劳动合同
- * @param {boolean} [params.hasSocialInsurance=true] - 是否缴纳社保
- * @param {boolean} [params.hasAdvanceNotice=true] - 公司是否提前30天通知
- * @param {string} [params.region] - 地区（用于计算社平工资3倍上限）
- * @returns {Object} 计算结果
- */
 function calculateSeverance({ monthlySalary, years, reason, hasWrittenContract = true, hasSocialInsurance = true, hasAdvanceNotice = true, region }) {
   const claims = [];
-
-  // 工作年限计算规则：不满6个月=0.5年，满6个月不满1年=1年
   const roundedYears = years % 1 === 0 ? years : (years % 1 >= 0.5 ? Math.ceil(years) : Math.floor(years) + 0.5);
 
-  // === 经济补偿金 N ===
-  // 适用条件：公司辞退、协商解除、合同到期公司不续签、经济性裁员
+  const AVG_SALARY_LIMITS = {
+    beijing: 25290, shanghai: 36549, shenzhen: 27501,
+    guangzhou: 28134, zhengzhou: 21370, hangzhou: 28368
+  };
+  const regionKey = region || 'zhengzhou';
+  const salaryLimit = AVG_SALARY_LIMITS[regionKey] || 30000;
+  const cappedSalary = Math.min(monthlySalary, salaryLimit);
+  const salaryIsCapped = monthlySalary > salaryLimit;
+
   if (['dismissal', 'mutual', 'expire'].includes(reason)) {
     const n = roundedYears;
-    const amount = Math.round(monthlySalary * n);
+    const amount = Math.round(cappedSalary * n);
     claims.push({
       type: '经济补偿金（N）',
-      formula: `N = ${n} 个月 × 月薪 ¥${monthlySalary.toLocaleString()}`,
+      formula: `N = ${n} 个月 × 月薪 ¥${monthlySalary.toLocaleString()}` + (salaryIsCapped ? `（封顶 ¥${cappedSalary.toLocaleString()}）` : ''),
       months: n,
       amount,
       legalBasis: '《劳动合同法》第46条、第47条',
@@ -34,8 +27,6 @@ function calculateSeverance({ monthlySalary, years, reason, hasWrittenContract =
     });
   }
 
-  // === 代通知金 +1 ===
-  // 适用条件：公司无过错性辞退（第40条），未提前30天通知
   if ((reason === 'dismissal' || reason === 'mutual') && !hasAdvanceNotice) {
     const amount = monthlySalary;
     claims.push({
@@ -48,14 +39,12 @@ function calculateSeverance({ monthlySalary, years, reason, hasWrittenContract =
     });
   }
 
-  // === 违法解除赔偿金 2N ===
-  // 适用条件：公司违法解除劳动合同
   if (reason === 'illegal') {
     const n = roundedYears;
-    const amount = Math.round(monthlySalary * n * 2);
+    const amount = Math.round(cappedSalary * n * 2);
     claims.push({
       type: '违法解除赔偿金（2N）',
-      formula: `2N = ${n} 年 × 2 × 月薪 ¥${monthlySalary.toLocaleString()}`,
+      formula: `2N = ${n} 年 × 2 × 月薪 ¥${monthlySalary.toLocaleString()}` + (salaryIsCapped ? `（封顶 ¥${cappedSalary.toLocaleString()}）` : ''),
       months: n * 2,
       amount,
       legalBasis: '《劳动合同法》第87条',
@@ -63,9 +52,7 @@ function calculateSeverance({ monthlySalary, years, reason, hasWrittenContract =
     });
   }
 
-  // === 未签书面合同双倍工资 ===
   if (!hasWrittenContract) {
-    // 最多支持11个月（入职第2个月到第12个月）
     const months = Math.min(11, Math.floor(years));
     if (months > 0) {
       const amount = monthlySalary * months;
@@ -80,7 +67,6 @@ function calculateSeverance({ monthlySalary, years, reason, hasWrittenContract =
     }
   }
 
-  // === 未缴社保 ===
   if (!hasSocialInsurance) {
     claims.push({
       type: '社保补缴',
@@ -107,4 +93,4 @@ function calculateSeverance({ monthlySalary, years, reason, hasWrittenContract =
   };
 }
 
-module.exports = { calculateSeverance };
+export { calculateSeverance };

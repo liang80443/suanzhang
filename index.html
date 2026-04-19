@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>算账 — 你的时间值多少钱？</title>
+  <meta name="description" content="免费开源劳动权益计算工具箱：加班费、离职补偿（N/N+1/2N）、社保公积金计算，支持6大城市，法律依据明确。">
+  <meta name="keywords" content="加班费计算器,离职补偿计算器,N+1,2N,社保计算器,公积金计算器,劳动法,劳动权益">
+  <meta property="og:title" content="算账 — 开源劳动权益计算工具箱">
+  <meta property="og:description" content="免费计算加班费、离职补偿、社保公积金，支持北京/上海/深圳/广州/郑州/杭州。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://liang80443.github.io/suanzhang/">
+  <meta property="og:locale" content="zh_CN">
   <style>
     :root {
       --primary: #4f46e5;
@@ -183,8 +190,8 @@
       <p class="subtitle">你的时间值多少钱？来算算。</p>
       <div class="stats">
         <div class="stat-item">
-          <div class="stat-num">3</div>
-          <div class="stat-label">计算器</div>
+          <div class="stat-num">4</div>
+          <div class="stat-label">功能</div>
         </div>
         <div class="stat-item">
           <div class="stat-num">6</div>
@@ -202,6 +209,7 @@
       <button class="tab-btn active" onclick="switchTab('overtime')">⏰ 加班费</button>
       <button class="tab-btn" onclick="switchTab('severance')">👋 离职补偿</button>
       <button class="tab-btn" onclick="switchTab('insurance')">🏥 社保</button>
+      <button class="tab-btn" onclick="switchTab('guide')">⚖️ 维权</button>
     </div>
 
     <!-- 加班费 -->
@@ -307,6 +315,54 @@
       <div id="si-result" class="result"></div>
     </div>
 
+    <!-- 仲裁流程 -->
+    <div id="tab-guide" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">⚖️</span>
+          <div>
+            <div class="card-title">维权指南</div>
+            <div class="card-desc">仲裁全流程 · 证据清单 · 注意事项</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:1em;margin-bottom:12px">📋 仲裁流程</h3>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="claim-card" style="border-left-color:#4f46e5"><div class="claim-type">① 协商沟通</div><div class="claim-detail" style="font-size:0.85em">先与公司沟通，保留协商记录。协商不成进入下一步。</div></div>
+          <div style="text-align:center;font-size:0.8em;color:var(--text-secondary)">↓</div>
+          <div class="claim-card" style="border-left-color:#059669"><div class="claim-type">② 劳动监察投诉</div><div class="claim-detail" style="font-size:0.85em">拨打 12333 或前往当地劳动监察大队。<b>免费</b>，行政部门责令公司整改。</div><div class="claim-note">适合：拖欠工资、未缴社保、超时加班等</div></div>
+          <div style="text-align:center;font-size:0.8em;color:var(--text-secondary)">↓</div>
+          <div class="claim-card" style="border-left-color:#d97706"><div class="claim-type">③ 劳动仲裁（免费）</div><div class="claim-detail" style="font-size:0.85em">向公司所在地的劳动人事争议仲裁委员会申请。<b>全程免费</b>，无需请律师也能自己完成。</div><div class="claim-note">时效：1年（从知道权利被侵害之日起算）</div></div>
+          <div style="text-align:center;font-size:0.8em;color:var(--text-secondary)">↓</div>
+          <div class="claim-card" style="border-left-color:#dc2626"><div class="claim-type">④ 法院诉讼</div><div class="claim-detail" style="font-size:0.85em">对仲裁结果不服，15日内向法院起诉。一审→二审。</div><div class="claim-note">劳动争议实行"先仲裁后诉讼"，不能直接起诉</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:1em;margin-bottom:12px">📁 证据清单</h3>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:0.9em">
+          <div><b>劳动关系证明</b><div style="color:var(--text-secondary);font-size:0.85em;margin-top:2px">劳动合同、社保缴纳记录、工资流水、工牌、名片</div></div>
+          <div><b>工资标准证明</b><div style="color:var(--text-secondary);font-size:0.85em;margin-top:2px">工资条、银行流水、个税APP记录、公司薪酬制度</div></div>
+          <div><b>加班证据</b><div style="color:var(--text-secondary);font-size:0.85em;margin-top:2px">打卡记录截图、钉钉/企业微信聊天、调班通知、加班审批邮件</div></div>
+          <div><b>解除证据</b><div style="color:var(--text-secondary);font-size:0.85em;margin-top:2px">解除通知书（纸质/邮件/微信）、离职证明、HR沟通记录</div></div>
+          <div><b>其他</b><div style="color:var(--text-secondary);font-size:0.85em;margin-top:2px">考勤制度文件、公司群聊天记录、同事证言（如有）</div></div>
+        </div>
+      </div>
+
+      <div class="tips-card">
+        <h4>⚠️ 重要提醒</h4>
+        <ul>
+          <li>劳动仲裁<b>全程免费</b>，不要因为经济压力放弃维权</li>
+          <li>仲裁时效 <b>1年</b>，越早准备越好</li>
+          <li>证据尽量保留<b>原件</b>，截图需能看出来源和时间</li>
+          <li>可以先在「加班费」和「离职补偿」计算器估算金额，心中有数</li>
+          <li>如需法律援助：拨打 <b>12348</b> 法律援助热线（免费）</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- 贡献 -->
     <div class="contribute">
       <h3>🤝 欢迎参与贡献</h3>
@@ -344,7 +400,8 @@
       document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
       document.getElementById('tab-' + name).style.display = 'block';
-      event.currentTarget.classList.add('active');
+      if (event && event.currentTarget) event.currentTarget.classList.add('active');
+      else document.querySelector(`[onclick*="switchTab('${name}')"]`).classList.add('active');
     }
 
     function fm(n) {
@@ -353,12 +410,19 @@
     }
 
     // === 加班费 ===
+    const HOLIDAYS_2026 = [
+      {name:'元旦',dates:['01-01']},{name:'春节',dates:['02-17','02-18','02-19']},
+      {name:'清明节',dates:['04-05']},{name:'劳动节',dates:['05-01','05-02','05-03']},
+      {name:'端午节',dates:['06-19']},{name:'中秋节',dates:['09-12']},
+      {name:'国庆节',dates:['10-01','10-02','10-03']}
+    ];
+    const HOLIDAY_COUNT = HOLIDAYS_2026.reduce((s,h) => s+h.dates.length, 0);
     function calcOvertime() {
       const salary = Number(document.getElementById('ot-salary').value) || 0;
-      const weekday = Number(document.getElementById('ot-weekday').value) || 0;
-      const weekend = Number(document.getElementById('ot-weekend').value) || 0;
-      const holiday = Number(document.getElementById('ot-holiday').value) || 0;
-      if (salary <= 0) { alert('请输入月薪'); return; }
+      const weekday = Math.max(0, Number(document.getElementById('ot-weekday').value) || 0);
+      const weekend = Math.max(0, Number(document.getElementById('ot-weekend').value) || 0);
+      const holiday = Math.max(0, Number(document.getElementById('ot-holiday').value) || 0);
+      if (salary <= 0) { alert('请输入有效的月薪'); return; }
       const hourly = salary / 21.75 / 8;
       const details = [];
       if (weekday > 0) details.push({ type: '工作日延长', hours: weekday, rate: 150, amount: Math.round(hourly * weekday * 1.5) });
@@ -392,6 +456,7 @@
           <div class="tips-card">
             <h4>💡 小贴士</h4>
             <ul>
+              <li>2026年共${HOLIDAY_COUNT}天法定节假日：${HOLIDAYS_2026.map(h=>h.name+'('+h.dates.join('/')+')').join('、')}</li>
               <li>休息日加班可安排补休，不补休的支付 200%</li>
               <li>法定节假日必须支付 300%，不能用补休替代</li>
               <li>保存好打卡记录、聊天记录、邮件等加班证据</li>
@@ -409,15 +474,19 @@
       const hasContract = document.getElementById('sv-contract').checked;
       const hasInsurance = document.getElementById('sv-insurance').checked;
       const hasNotice = document.getElementById('sv-notice').checked;
-      if (salary <= 0 || years <= 0) { alert('请填写月薪和工作年限'); return; }
+      if (salary <= 0 || years <= 0) { alert('请填写有效的月薪和工作年限'); return; }
       const rounded = years % 1 === 0 ? years : (years % 1 >= 0.5 ? Math.ceil(years) : Math.floor(years) + 0.5);
+      const SALARY_LIMITS = { beijing:25290, shanghai:36549, shenzhen:27501, guangzhou:28134, zhengzhou:21370, hangzhou:28368 };
+      const cappedSalary = Math.min(salary, SALARY_LIMITS.zhengzhou || 30000);
+      const salaryCapped = salary > (SALARY_LIMITS.zhengzhou || 30000);
+      const calcSalary = ['dismissal','mutual','expire','illegal'].includes(reason) ? cappedSalary : salary;
       const claims = [];
       if (['dismissal','mutual','expire'].includes(reason))
-        claims.push({ type:'经济补偿金（N）', detail:`${rounded} 个月 × ¥${salary.toLocaleString()}`, amount:Math.round(salary*rounded), law:'《劳动合同法》第46、47条', note:'不满6个月按0.5年，满6个月按1年' });
+        claims.push({ type:'经济补偿金（N）', detail:`${rounded} 个月 × ¥${calcSalary.toLocaleString()}`, amount:Math.round(calcSalary*rounded), law:'《劳动合同法》第46、47条', note:salaryCapped?'月薪超过社平3倍，已封顶至¥'+cappedSalary.toLocaleString():'不满6个月按0.5年，满6个月按1年' });
       if (['dismissal','mutual'].includes(reason) && !hasNotice)
-        claims.push({ type:'代通知金（+1）', detail:'1 个月 × ¥'+salary.toLocaleString(), amount:salary, law:'《劳动合同法》第40条', note:'仅限公司未提前30天书面通知' });
+        claims.push({ type:'代通知金（+1）', detail:'1 个月 × ¥'+calcSalary.toLocaleString(), amount:calcSalary, law:'《劳动合同法》第40条', note:'仅限公司未提前30天书面通知' });
       if (reason === 'illegal')
-        claims.push({ type:'违法解除赔偿金（2N）', detail:`${rounded} 年 × 2 × ¥${salary.toLocaleString()}`, amount:Math.round(salary*rounded*2), law:'《劳动合同法》第87条', note:'2N 和 N 不能同时主张' });
+        claims.push({ type:'违法解除赔偿金（2N）', detail:`${rounded} 年 × 2 × ¥${calcSalary.toLocaleString()}`, amount:Math.round(calcSalary*rounded*2), law:'《劳动合同法》第87条', note:salaryCapped?'月薪超过社平3倍，已封顶':'2N 和 N 不能同时主张' });
       if (!hasContract) {
         const months = Math.min(11, Math.floor(years));
         if (months > 0) claims.push({ type:'未签合同双倍工资', detail:`${months} 个月 × ¥${salary.toLocaleString()}`, amount:salary*months, law:'《劳动合同法》第82条', note:`最多11个月，有1年仲裁时效` });
@@ -458,17 +527,18 @@
     function calcInsurance() {
       const salary = Number(document.getElementById('si-salary').value) || 0;
       const region = document.getElementById('si-region').value;
-      if (salary <= 0) { alert('请输入月薪'); return; }
+      if (salary <= 0) { alert('请输入有效的月薪'); return; }
       const cities = {
-        beijing: { name:'北京', pension:[8,16], medical:[2,9.8], unemploy:[0.5,0.5], injury:[0,0.4], maternity:[0,0.8], fund:[12,12], fr:[2420,35283] },
-        shanghai: { name:'上海', pension:[8,16], medical:[2,9.5], unemploy:[0.5,0.5], injury:[0,0.16], maternity:[0,1], fund:[7,7], fr:[2690,36549] },
-        shenzhen: { name:'深圳', pension:[8,16], medical:[2,5.2], unemploy:[0.3,0.7], injury:[0,0.14], maternity:[0,0.45], fund:[5,5], fr:[2360,27501] },
-        guangzhou: { name:'广州', pension:[8,16], medical:[2,5.5], unemploy:[0.2,0.8], injury:[0,0.2], maternity:[0,0.85], fund:[5,5], fr:[2300,38082] },
-        zhengzhou: { name:'郑州', pension:[8,16], medical:[2,8], unemploy:[0.3,0.7], injury:[0,0.2], maternity:[0,1], fund:[12,12], fr:[2100,28134] },
-        hangzhou: { name:'杭州', pension:[8,14], medical:[2,9.5], unemploy:[0.5,0.5], injury:[0,0.2], maternity:[0,1.2], fund:[12,12], fr:[2490,36318] }
+        beijing: { name:'北京', pension:[8,16], medical:[2,9.8], unemploy:[0.5,0.5], injury:[0,0.4], maternity:[0,0.8], fund:[12,12], si:[6821,35283], fr:[2420,35283] },
+        shanghai: { name:'上海', pension:[8,16], medical:[2,9.5], unemploy:[0.5,0.5], injury:[0,0.16], maternity:[0,1], fund:[7,7], si:[7310,36549], fr:[2690,36549] },
+        shenzhen: { name:'深圳', pension:[8,16], medical:[2,6], unemploy:[0.2,0.8], injury:[0,0.14], maternity:[0,0.5], fund:[5,5], si:[4775,27501], fr:[2360,27501] },
+        guangzhou: { name:'广州', pension:[8,16], medical:[2,5.5], unemploy:[0.2,0.8], injury:[0,0.2], maternity:[0,0.85], fund:[5,5], si:[5284,26421], fr:[2300,38082] },
+        zhengzhou: { name:'郑州', pension:[8,16], medical:[2,8], unemploy:[0.3,0.7], injury:[0,0.2], maternity:[0,1], fund:[12,12], si:[2100,28134], fr:[2100,28134] },
+        hangzhou: { name:'杭州', pension:[8,14], medical:[2,9.5], unemploy:[0.5,0.5], injury:[0,0.2], maternity:[0,1.2], fund:[12,12], si:[4462,22311], fr:[2490,36318] }
       };
       const c = cities[region];
-      const base = Math.max(c.fr[0], Math.min(salary, c.fr[1]));
+      const siBase = Math.max(c.si[0], Math.min(salary, c.si[1]));
+      const fundBase = Math.max(c.fr[0], Math.min(salary, c.fr[1]));
       const items = [
         { name:'养老保险', pR:c.pension[0], cR:c.pension[1] },
         { name:'医疗保险', pR:c.medical[0], cR:c.medical[1] },
@@ -478,7 +548,7 @@
         { name:'住房公积金', pR:c.fund[0], cR:c.fund[1], isFund:true }
       ];
       items.forEach(i => {
-        const b = i.isFund ? base : salary;
+        const b = i.isFund ? fundBase : siBase;
         i.p = Math.round(b * i.pR / 100);
         i.c = Math.round(b * i.cR / 100);
       });
@@ -497,7 +567,7 @@
               <div class="detail-row">
                 <div class="info">
                   <div class="type">${i.name}</div>
-                  <div class="desc">个人${i.pR}% · 公司${i.cR}%${i.isFund ? ' · 基数¥'+base.toLocaleString() : ''}</div>
+                  <div class="desc">个人${i.pR}% · 公司${i.cR}%${i.isFund ? ' · 基数¥'+fundBase.toLocaleString() : ' · 基数¥'+siBase.toLocaleString()}</div>
                 </div>
                 <div style="text-align:right">
                   <div style="font-size:0.8em;color:var(--text-secondary)">${fm(i.c)}</div>
@@ -518,7 +588,7 @@
             <ul>
               <li>以上为${c.name}参考费率，实际以最新政策为准</li>
               <li>到手为粗略估算，不含个税和专项扣除</li>
-              <li>公积金基数 ¥${c.fr[0]}-¥${c.fr[1].toLocaleString()}</li>
+              <li>社保基数 ¥${c.si[0]}-¥${c.si[1].toLocaleString()} · 公积金基数 ¥${c.fr[0]}-¥${c.fr[1].toLocaleString()}</li>
               <li>你的城市不在这里？<a href="https://github.com/liang80443/suanzhang" target="_blank" style="color:var(--primary)">提交 PR 添加！</a></li>
             </ul>
           </div>
