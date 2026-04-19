@@ -190,11 +190,11 @@
       <p class="subtitle">你的时间值多少钱？来算算。</p>
       <div class="stats">
         <div class="stat-item">
-          <div class="stat-num">4</div>
+          <div class="stat-num">8</div>
           <div class="stat-label">功能</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">6</div>
+          <div class="stat-num">16</div>
           <div class="stat-label">城市</div>
         </div>
         <div class="stat-item">
@@ -210,6 +210,10 @@
       <button class="tab-btn" onclick="switchTab('severance')">👋 离职补偿</button>
       <button class="tab-btn" onclick="switchTab('insurance')">🏥 社保</button>
       <button class="tab-btn" onclick="switchTab('guide')">⚖️ 维权</button>
+      <button class="tab-btn" onclick="switchTab('annual')">🏖️ 年假</button>
+      <button class="tab-btn" onclick="switchTab('injury')">🩹 工伤</button>
+      <button class="tab-btn" onclick="switchTab('tax')">🧾 个税</button>
+      <button class="tab-btn" onclick="switchTab('sick')">🤒 病假</button>
     </div>
 
     <!-- 加班费 -->
@@ -241,6 +245,7 @@
           </div>
         </div>
         <button class="btn" onclick="calcOvertime()">算算我该拿多少 →</button>
+        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-ot" onclick="saveResult('btn-ot','ot-result')">📸 保存截图</button></div>
       </div>
       <div id="ot-result" class="result"></div>
     </div>
@@ -279,6 +284,7 @@
         <label class="form-check"><input type="checkbox" id="sv-insurance" checked> 公司缴纳社保</label>
         <label class="form-check"><input type="checkbox" id="sv-notice" checked> 公司提前 30 天通知</label>
         <button class="btn" onclick="calcSeverance()">算算我能拿多少 →</button>
+        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-sv" onclick="saveResult('btn-sv','sv-result')">📸 保存截图</button></div>
       </div>
       <div id="sv-result" class="result"></div>
     </div>
@@ -307,10 +313,20 @@
               <option value="shenzhen">深圳</option>
               <option value="guangzhou">广州</option>
               <option value="hangzhou">杭州</option>
+              <option value="chengdu">成都</option>
+              <option value="wuhan">武汉</option>
+              <option value="nanjing">南京</option>
+              <option value="tianjin">天津</option>
+              <option value="xian">西安</option>
+              <option value="changsha">长沙</option>
+              <option value="suzhou">苏州</option>
+              <option value="qingdao">青岛</option>
+              <option value="dalian">大连</option>
             </select>
           </div>
         </div>
         <button class="btn" onclick="calcInsurance()">算算到手多少 →</button>
+        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-si" onclick="saveResult('btn-si','si-result')">📸 保存截图</button></div>
       </div>
       <div id="si-result" class="result"></div>
     </div>
@@ -363,6 +379,173 @@
       </div>
     </div>
 
+    <!-- 年假 -->
+    <div id="tab-annual" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🏖️</span>
+          <div>
+            <div class="card-title">年假计算器</div>
+            <div class="card-desc">年假天数 · 未休补偿 · 离职折算</div>
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr">
+          <div class="form-group">
+            <label class="form-label">月薪基数 <span class="hint">前12月平均</span></label>
+            <input type="number" id="an-salary" class="form-input" value="10000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">累计工作年限</label>
+            <input type="number" id="an-years" class="form-input" value="5" step="0.5">
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr">
+          <div class="form-group">
+            <label class="form-label">今年已休天数</label>
+            <input type="number" id="an-taken" class="form-input" value="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">离职月份 <span class="hint">在职选12月</span></label>
+            <select id="an-leave" class="form-input">
+              <option value="0">在职（按全年算）</option>
+              <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+              <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+              <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+              <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn" onclick="calcAnnual()">算算年假怎么算 →</button>
+        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-an" onclick="saveResult('btn-an','an-result')">📸 保存截图</button></div>
+      </div>
+      <div id="an-result" class="result"></div>
+    </div>
+
+    <!-- 工伤 -->
+    <div id="tab-injury" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🩹</span>
+          <div>
+            <div class="card-title">工伤赔偿计算器</div>
+            <div class="card-desc">伤残等级 · 停工留薪 · 一次性补助</div>
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr">
+          <div class="form-group">
+            <label class="form-label">月薪基数</label>
+            <input type="number" id="inj-salary" class="form-input" value="8000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">伤残等级</label>
+            <select id="inj-level" class="form-input">
+              <option value="1">一级</option><option value="2">二级</option><option value="3">三级</option><option value="4">四级</option>
+              <option value="5">五级</option><option value="6">六级</option><option value="7" selected>七级</option>
+              <option value="8">八级</option><option value="9">九级</option><option value="10">十级</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr">
+          <div class="form-group">
+            <label class="form-label">停工留薪期（月）</label>
+            <input type="number" id="inj-rest" class="form-input" value="6">
+          </div>
+          <div class="form-group">
+            <label class="form-label">所在省份 <span class="hint">用于补助金</span></label>
+            <select id="inj-province" class="form-input">
+              <option value="general">全国平均（参考）</option>
+              <option value="henan">河南</option><option value="guangdong">广东</option><option value="zhejiang">浙江</option>
+              <option value="jiangsu">江苏</option><option value="shandong">山东</option><option value="sichuan">四川</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn" onclick="calcInjury()">算算工伤赔偿 →</button>
+        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-inj" onclick="saveResult('btn-inj','inj-result')">📸 保存截图</button></div>
+      </div>
+      <div id="inj-result" class="result"></div>
+    </div>
+
+    <!-- 个税 -->
+    <div id="tab-tax" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🧾</span>
+          <div>
+            <div class="card-title">个税计算器</div>
+            <div class="card-desc">累计预扣法 · 算真实到手</div>
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr">
+          <div class="form-group">
+            <label class="form-label">月薪（税前）</label>
+            <input type="number" id="tx-salary" class="form-input" value="15000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">五险一金（个人/月）</label>
+            <input type="number" id="tx-insurance" class="form-input" value="1800">
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="form-group">
+            <label class="form-label">专项扣除合计</label>
+            <input type="number" id="tx-special" class="form-input form-input-sm" value="2000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">子女教育</label>
+            <input type="number" id="tx-child" class="form-input form-input-sm" value="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">住房租金/房贷</label>
+            <input type="number" id="tx-house" class="form-input form-input-sm" value="1500">
+          </div>
+        </div>
+        <button class="btn" onclick="calcTax()">算算到手多少 →</button>
+        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-tx" onclick="saveResult('btn-tx','tx-result')">📸 保存截图</button></div>
+      </div>
+      <div id="tx-result" class="result"></div>
+    </div>
+
+    <!-- 病假 -->
+    <div id="tab-sick" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🤒</span>
+          <div>
+            <div class="card-title">病假工资计算器</div>
+            <div class="card-desc">医疗期 · 病假工资 · 地区标准</div>
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr">
+          <div class="form-group">
+            <label class="form-label">月薪基数</label>
+            <input type="number" id="sk-salary" class="form-input" value="10000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">本单位工龄（年）</label>
+            <input type="number" id="sk-years" class="form-input" value="3">
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr">
+          <div class="form-group">
+            <label class="form-label">病假天数</label>
+            <input type="number" id="sk-days" class="form-input" value="10">
+          </div>
+          <div class="form-group">
+            <label class="form-label">所在城市</label>
+            <select id="sk-city" class="form-input">
+              <option value="general">通用标准（最低80%）</option>
+              <option value="shanghai">上海（分档60%-100%）</option>
+              <option value="beijing">北京（不低于80%）</option>
+              <option value="guangdong">广东（分档60%-100%）</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn" onclick="calcSick()">算算病假工资 →</button>
+        <div style="text-align:center;margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.85em;cursor:pointer;color:var(--text-secondary)" id="btn-sk" onclick="saveResult('btn-sk','sk-result')">📸 保存截图</button></div>
+      </div>
+      <div id="sk-result" class="result"></div>
+    </div>
+
     <!-- 贡献 -->
     <div class="contribute">
       <h3>🤝 欢迎参与贡献</h3>
@@ -399,6 +582,25 @@
       </p>
     </div>
     <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+    function saveResult(btnId, resultId) {
+      const el = document.getElementById(resultId);
+      if (!el || !el.classList.contains('show')) { alert('请先计算结果'); return; }
+      const btn = document.getElementById(btnId);
+      btn.textContent = '生成中...';
+      html2canvas(el, { backgroundColor: '#f8fafc', scale: 2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'suanzhang-' + resultId + '-' + Date.now() + '.png';
+        link.href = canvas.toDataURL();
+        link.click();
+        btn.textContent = '📸 保存截图';
+      }).catch(() => {
+        btn.textContent = '📸 保存截图';
+        alert('截图失败，请手动截图');
+      });
+    }
+    </script>
   </div>
 
   <script>
@@ -540,7 +742,16 @@
         shenzhen: { name:'深圳', pension:[8,16], medical:[2,6], unemploy:[0.2,0.8], injury:[0,0.14], maternity:[0,0.5], fund:[5,5], si:[4775,27501], fr:[2360,27501] },
         guangzhou: { name:'广州', pension:[8,16], medical:[2,5.5], unemploy:[0.2,0.8], injury:[0,0.2], maternity:[0,0.85], fund:[5,5], si:[5284,26421], fr:[2300,38082] },
         zhengzhou: { name:'郑州', pension:[8,16], medical:[2,8], unemploy:[0.3,0.7], injury:[0,0.2], maternity:[0,1], fund:[12,12], si:[2100,28134], fr:[2100,28134] },
-        hangzhou: { name:'杭州', pension:[8,14], medical:[2,9.5], unemploy:[0.5,0.5], injury:[0,0.2], maternity:[0,1.2], fund:[12,12], si:[4462,22311], fr:[2490,36318] }
+        hangzhou: { name:'杭州', pension:[8,14], medical:[2,9.5], unemploy:[0.5,0.5], injury:[0,0.2], maternity:[0,1.2], fund:[12,12], si:[4462,22311], fr:[2490,36318] },
+        chengdu: { name:'成都', pension:[8,16], medical:[2,6.7], unemploy:[0.4,0.6], injury:[0,0.2], maternity:[0,0.8], fund:[5,6], si:[4511,22557], fr:[1780,32862] },
+        wuhan: { name:'武汉', pension:[8,16], medical:[2,8], unemploy:[0.3,0.7], injury:[0,0.3], maternity:[0,0.7], fund:[8,8], si:[4494,22467], fr:[2010,29361] },
+        nanjing: { name:'南京', pension:[8,16], medical:[2,8.5], unemploy:[0.5,0.5], injury:[0,0.2], maternity:[0,0.8], fund:[5,8], si:[4494,24042], fr:[2280,34500] },
+        tianjin: { name:'天津', pension:[8,16], medical:[2,10], unemploy:[0.5,0.5], injury:[0,0.4], maternity:[0,0.8], fund:[11,11], si:[4760,23799], fr:[2320,27786] },
+        xian: { name:'西安', pension:[8,16], medical:[2,7.9], unemploy:[0.3,0.7], injury:[0,0.3], maternity:[0,0.8], fund:[5,5], si:[4515,22575], fr:[1950,25782] },
+        changsha: { name:'长沙', pension:[8,16], medical:[2,8], unemploy:[0.3,0.7], injury:[0,0.6], maternity:[0,0.7], fund:[5,12], si:[3770,18852], fr:[1700,20418] },
+        suzhou: { name:'苏州', pension:[8,16], medical:[2,7.5], unemploy:[0.5,0.5], injury:[0,0.2], maternity:[0,0.8], fund:[5,12], si:[4494,24042], fr:[2400,34500] },
+        qingdao: { name:'青岛', pension:[8,16], medical:[2,8.5], unemploy:[0.3,0.7], injury:[0,0.2], maternity:[0,1], fund:[7,7], si:[4416,22080], fr:[2010,28152] },
+        dalian: { name:'大连', pension:[8,16], medical:[2,8], unemploy:[0.5,0.5], injury:[0,0.4], maternity:[0,0.8], fund:[7,7], si:[4293,21465], fr:[1910,26751] }
       };
       const c = cities[region];
       const siBase = Math.max(c.si[0], Math.min(salary, c.si[1]));
@@ -600,6 +811,208 @@
           </div>
         </div>`;
       siEl.classList.add('show');
+    }
+
+    // === 年假 ===
+    function calcAnnual() {
+      const salary = Number(document.getElementById('an-salary').value) || 0;
+      const years = Math.max(0, Number(document.getElementById('an-years').value) || 0);
+      const taken = Math.max(0, Number(document.getElementById('an-taken').value) || 0);
+      const leaveMonth = Number(document.getElementById('an-leave').value);
+      if (salary <= 0) { alert('请输入有效的月薪'); return; }
+      const totalDays = years < 1 ? 0 : years < 10 ? 5 : years < 20 ? 10 : 15;
+      const daily = Math.round(salary / 21.75);
+      let availDays = totalDays, unusedDays = 0;
+      if (leaveMonth === 0) {
+        availDays = totalDays; unusedDays = Math.max(0, totalDays - taken);
+      } else {
+        const year = new Date().getFullYear();
+        const passed = Math.floor((new Date(year, leaveMonth - 1, 1) - new Date(year, 0, 1)) / 86400000);
+        availDays = Math.floor(passed / 365 * totalDays);
+        unusedDays = Math.max(0, availDays - taken);
+      }
+      const compRate = 200; // 额外200%，正常100%已发
+      const compensation = Math.round(daily * compRate / 100 * unusedDays);
+      const anEl = document.getElementById('an-result');
+      anEl.innerHTML = `
+        <div>
+          <div class="result-hero">
+            <div class="label">累计工龄 ${years} 年 · 享有年假 ${totalDays} 天</div>
+            <div class="amount">未休 ${unusedDays} 天</div>
+            <div class="sub">可补偿 ${fm(compensation)}（日薪 ${fm(daily)} × ${compRate}% × ${unusedDays}天）</div>
+          </div>
+          <div class="card">
+            <div class="detail-row"><div class="info"><div class="type">累计工作年限</div><div class="desc">跨单位累计</div></div><div class="value">${years} 年</div></div>
+            <div class="detail-row"><div class="info"><div class="type">法定年假天数</div><div class="desc">${years<1?'不满1年无年假':years<10?'1-10年: 5天':years<20?'10-20年: 10天':'20年+: 15天'}</div></div><div class="value">${totalDays} 天</div></div>
+            <div class="detail-row"><div class="info"><div class="type">今年可休天数</div><div class="desc">${leaveMonth===0?'全年':'截至'+leaveMonth+'月折算'}</div></div><div class="value">${availDays} 天</div></div>
+            <div class="detail-row"><div class="info"><div class="type">已休天数</div></div><div class="value">${taken} 天</div></div>
+            <div class="detail-row" style="border-top:2px solid var(--border);padding-top:14px"><div class="info"><div class="type" style="font-size:1em">未休天数 · 可获补偿</div></div><div class="value" style="font-size:1.3em">${unusedDays} 天 · ${fm(compensation)}</div></div>
+          </div>
+          <div class="tips-card">
+            <h4>💡 小贴士</h4>
+            <ul>
+              <li>累计工龄可跨单位计算（含服兵役期间）</li>
+              <li>未休年假补偿 = 日工资 × 300%（含已发100%，额外200%）</li>
+              <li>公司"年假到期作废"的规定<b>无效</b>，除非公司主动安排你书面放弃</li>
+              <li>仲裁时效1年，年假争议劳动者胜诉率约78%</li>
+              <li>法律依据：《职工带薪年休假条例》国务院令第514号</li>
+            </ul>
+          </div>
+        </div>`;
+      anEl.classList.add('show');
+    }
+
+    // === 工伤 ===
+    function calcInjury() {
+      const salary = Number(document.getElementById('inj-salary').value) || 0;
+      const level = Number(document.getElementById('inj-level').value);
+      const rest = Math.max(0, Number(document.getElementById('inj-rest').value) || 0);
+      const province = document.getElementById('inj-province').value;
+      if (salary <= 0) { alert('请输入有效的月薪'); return; }
+      const grades = {1:27,2:25,3:23,4:21,5:18,6:16,7:13,8:11,9:9,10:7};
+      const subsidies = {1:'90%',2:'85%',3:'80%',4:'75%',5:'70%',6:'60%'};
+      const months = grades[level];
+      const oneTime = salary * months;
+      const restPay = salary * rest;
+      const hasSubsidy = level <= 6;
+      const subsidyRate = subsidies[level] || '0%';
+      const monthlySubsidy = hasSubsidy ? Math.round(salary * parseInt(subsidy) / 100) : 0;
+      const total = oneTime + restPay + (hasSubsidy ? 0 : 0);
+      const injEl = document.getElementById('inj-result');
+      injEl.innerHTML = `
+        <div>
+          <div class="result-hero">
+            <div class="label">${level}级伤残</div>
+            <div class="amount">${fm(oneTime)}</div>
+            <div class="sub">一次性伤残补助金 ${months}个月工资 · 停工留薪 ${fm(restPay)}</div>
+          </div>
+          <div class="card">
+            <div class="detail-row"><div class="info"><div class="type">伤残等级</div></div><div class="value">${level} 级</div></div>
+            <div class="detail-row"><div class="info"><div class="type">一次性伤残补助金</div><div class="desc">本人工资 × ${months}个月</div></div><div class="value">${fm(oneTime)}</div></div>
+            <div class="detail-row"><div class="info"><div class="type">停工留薪期工资</div><div class="desc">${rest}个月 × 原工资待遇</div></div><div class="value">${fm(restPay)}</div></div>
+            ${hasSubsidy ? `<div class="detail-row"><div class="info"><div class="type">伤残津贴（按月）</div><div class="desc">保留劳动关系，按月发放</div></div><div class="value">${fm(monthlySubsidy)}/月</div></div>` : ''}
+            <div class="detail-row" style="border-top:2px solid var(--border);padding-top:14px"><div class="info"><div class="type" style="font-size:1em">以上合计（不含津贴）</div></div><div class="value" style="font-size:1.3em">${fm(oneTime + restPay)}</div></div>
+          </div>
+          <div class="tips-card">
+            <h4>💡 小贴士</h4>
+            <ul>
+              <li>工伤认定需在<b>1年内</b>申请（从受伤之日起）</li>
+              <li>停工留薪期一般不超过12个月，特殊情况可延长12个月</li>
+              <li>1-4级保留劳动关系，退出岗位，按月领伤残津贴</li>
+              <li>5-6级难以安排工作时，按月发津贴（单位发）</li>
+              <li>7-10级主要是一次性补助，各省还有一次性医疗/就业补助</li>
+              <li>先申请<b>工伤认定</b> → <b>劳动能力鉴定</b> → 按等级计算赔偿</li>
+            </ul>
+          </div>
+        </div>`;
+      injEl.classList.add('show');
+    }
+
+    // === 个税 ===
+    function calcTax() {
+      const salary = Number(document.getElementById('tx-salary').value) || 0;
+      const insurance = Number(document.getElementById('tx-insurance').value) || 0;
+      const special = Number(document.getElementById('tx-special').value) || 0;
+      const child = Number(document.getElementById('tx-child').value) || 0;
+      const house = Number(document.getElementById('tx-house').value) || 0;
+      if (salary <= 0) { alert('请输入有效的月薪'); return; }
+      const exempt = 5000;
+      const deductions = insurance + special + child + house;
+      const taxable = salary - exempt - deductions;
+      let tax = 0;
+      if (taxable > 0) {
+        if (taxable <= 3000) tax = taxable * 0.03;
+        else if (taxable <= 12000) tax = taxable * 0.1 - 210;
+        else if (taxable <= 25000) tax = taxable * 0.2 - 1410;
+        else if (taxable <= 35000) tax = taxable * 0.25 - 2660;
+        else if (taxable <= 55000) tax = taxable * 0.3 - 4410;
+        else if (taxable <= 80000) tax = taxable * 0.35 - 7160;
+        else tax = taxable * 0.45 - 15160;
+      }
+      tax = Math.max(0, Math.round(tax));
+      const takeHome = salary - insurance - tax;
+      const txEl = document.getElementById('tx-result');
+      txEl.innerHTML = `
+        <div>
+          <div class="result-hero">
+            <div class="label">税前 ${fm(salary)}</div>
+            <div class="amount">到手 ${fm(takeHome)}</div>
+            <div class="sub">五险一金 ${fm(insurance)} · 个税 ${fm(tax)} · 各项扣除 ${fm(deductions)}</div>
+          </div>
+          <div class="card">
+            <div class="detail-row"><div class="info"><div class="type">税前月薪</div></div><div class="value">${fm(salary)}</div></div>
+            <div class="detail-row"><div class="info"><div class="type">起征点</div></div><div class="value" style="color:var(--text-secondary)">-${fm(exempt)}</div></div>
+            <div class="detail-row"><div class="info"><div class="type">五险一金（个人）</div></div><div class="value" style="color:var(--text-secondary)">-${fm(insurance)}</div></div>
+            <div class="detail-row"><div class="info"><div class="type">专项扣除</div><div class="desc">${special>0?'专项附加: '+fm(special):'无'}</div></div><div class="value" style="color:var(--text-secondary)">-${fm(special)}</div></div>
+            <div class="detail-row"><div class="info"><div class="type">子女教育</div></div><div class="value" style="color:var(--text-secondary)">-${fm(child)}</div></div>
+            <div class="detail-row"><div class="info"><div class="type">住房租金/房贷</div></div><div class="value" style="color:var(--text-secondary)">-${fm(house)}</div></div>
+            <div class="detail-row"><div class="info"><div class="type">应纳税所得额</div><div class="desc">税前-起征点-五险一金-各项扣除</div></div><div class="value">${fm(Math.max(0,taxable))}</div></div>
+            <div class="detail-row" style="border-top:2px solid var(--border);padding-top:14px"><div class="info"><div class="type" style="font-size:1em">个税（月）</div></div><div class="value" style="font-size:1.3em;color:var(--danger)">-${fm(tax)}</div></div>
+            <div class="detail-row" style="border-top:2px solid var(--primary);padding-top:14px"><div class="info"><div class="type" style="font-size:1.1em">✅ 实际到手</div></div><div class="value" style="font-size:1.3em">${fm(takeHome)}</div></div>
+          </div>
+          <div class="tips-card">
+            <h4>💡 小贴士</h4>
+            <ul>
+              <li>个税采用<b>累计预扣法</b>，年底可能多退少补</li>
+              <li>起征点 5000元/月（6万元/年）</li>
+              <li>专项附加扣除：子女教育2000/孩、住房租金1500、赡养老人3000等</li>
+              <li>年终奖可选择单独计税（一次性计算），可能更划算</li>
+              <li>可在「社保」计算器算出五险一金后，填入本计算器</li>
+            </ul>
+          </div>
+        </div>`;
+      txEl.classList.add('show');
+    }
+
+    // === 病假 ===
+    function calcSick() {
+      const salary = Number(document.getElementById('sk-salary').value) || 0;
+      const years = Math.max(0, Number(document.getElementById('sk-years').value) || 0);
+      const days = Math.max(1, Number(document.getElementById('sk-days').value) || 0);
+      const city = document.getElementById('sk-city').value;
+      if (salary <= 0) { alert('请输入有效的月薪'); return; }
+      const daily = Math.round(salary / 21.75);
+      let rate = 80, rateDesc = '通用标准：不低于最低工资80%';
+      if (city === 'shanghai') {
+        if (years < 2) { rate = 60; } else if (years < 4) { rate = 70; } else if (years < 6) { rate = 80; } else if (years < 8) { rate = 90; } else { rate = 100; }
+        rateDesc = '上海标准：按连续工龄分档60%-100%';
+      } else if (city === 'guangdong') {
+        if (years < 1) { rate = 60; } else if (years < 3) { rate = 70; } else { rate = 80; }
+        rateDesc = '广东标准：按工龄分档60%-80%';
+      } else if (city === 'beijing') {
+        rate = 80; rateDesc = '北京标准：不低于本人工资80%';
+      }
+      const sickPay = Math.round(daily * rate / 100 * days);
+      const normalPay = daily * days;
+      const deducted = normalPay - sickPay;
+      const medicalPeriod = years < 5 ? 3 : years < 10 ? 6 : years < 15 ? 12 : years < 20 ? 18 : 24;
+      const skEl = document.getElementById('sk-result');
+      skEl.innerHTML = `
+        <div>
+          <div class="result-hero">
+            <div class="label">病假 ${days} 天 · ${rateDesc}</div>
+            <div class="amount">到手 ${fm(sickPay)}</div>
+            <div class="sub">日薪 ${fm(daily)} × ${rate}% × ${days}天 · 扣减 ${fm(deducted)}</div>
+          </div>
+          <div class="card">
+            <div class="detail-row"><div class="info"><div class="type">正常工资（${days}天）</div></div><div class="value">${fm(normalPay)}</div></div>
+            <div class="detail-row"><div class="info"><div class="type">病假发放比例</div><div class="desc">${rateDesc}</div></div><div class="value">${rate}%</div></div>
+            <div class="detail-row"><div class="info"><div class="type">病假工资</div></div><div class="value">${fm(sickPay)}</div></div>
+            <div class="detail-row"><div class="info"><div class="type">扣减金额</div></div><div class="value" style="color:var(--danger)">-${fm(deducted)}</div></div>
+            <div class="detail-row"><div class="info"><div class="type">医疗期上限</div><div class="desc">工龄${years}年，法定医疗期${medicalPeriod}个月</div></div><div class="value">${medicalPeriod} 个月</div></div>
+          </div>
+          <div class="tips-card">
+            <h4>💡 小贴士</h4>
+            <ul>
+              <li>病假工资不得低于当地最低工资标准的<b>80%</b></li>
+              <li>各地标准不同：上海/广东分档较细，北京统一80%</li>
+              <li>医疗期满后仍不能工作的，公司可解除合同但需付补偿</li>
+              <li>需提供医院诊断证明和病假条</li>
+              <li>法律依据：《企业职工患病或非因工负伤医疗期规定》</li>
+            </ul>
+          </div>
+        </div>`;
+      skEl.classList.add('show');
     }
   </script>
 </body>
