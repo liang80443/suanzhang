@@ -59,7 +59,7 @@ console.log(`实际到手：约 ¥${insurance.summary.takeHome}`);
 
 ## 🌐 在线使用
 
-> 即将上线 GitHub Pages，敬请期待。
+👉 [https://liang80443.github.io/suanzhang/](https://liang80443.github.io/suanzhang/)
 
 ## 🤝 参与贡献
 
