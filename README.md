@@ -22,41 +22,6 @@
 - 「劳动仲裁完全指南」
 - 文书模板（仲裁申请书、离职协议等）
 
-## 🚀 使用
-
-```bash
-npm install suanzhang
-```
-
-```javascript
-const { calculateOvertime, calculateSeverance, calculateSocialInsurance } = require('suanzhang');
-
-// 算加班费
-const overtime = calculateOvertime({
-  monthlySalary: 10000,
-  weekdayHours: 10,  // 工作日加班10小时
-  weekendHours: 8,   // 周末加班8小时
-  holidayHours: 4    // 法定节假日加班4小时
-});
-console.log(`你的加班费：¥${overtime.summary.total}`);
-
-// 算离职补偿
-const severance = calculateSeverance({
-  monthlySalary: 15000,
-  years: 3.5,
-  reason: 'illegal'  // 违法解除 → 2N
-});
-console.log(`你的赔偿金：¥${severance.summary.total}`);
-
-// 算社保公积金
-const insurance = calculateSocialInsurance({
-  monthlySalary: 10000,
-  region: 'zhengzhou'
-});
-console.log(`个人月缴：¥${insurance.summary.totalPersonal}`);
-console.log(`实际到手：约 ¥${insurance.summary.takeHome}`);
-```
-
 ## 🌐 在线使用
 
 👉 [https://liang80443.github.io/suanzhang/](https://liang80443.github.io/suanzhang/)
